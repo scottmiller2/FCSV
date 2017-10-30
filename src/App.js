@@ -65,7 +65,6 @@ class App extends Component {
 
   downvotePlayer(playerId){
     this.database.child(playerId).votes--;
-    this.database = this.app.database().ref().child('votes');
   }
   
   render() {
