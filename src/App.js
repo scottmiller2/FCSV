@@ -13,6 +13,7 @@ class App extends Component {
     this.addPlayer = this.addPlayer.bind(this);
     this.removePlayer = this.removePlayer.bind(this);
     this.downvotePlayer = this.downvotePlayer.bind(this);
+    this.upvotePlayer = this.upvotePlayer.bind(this);
 
     this.app = firebase.initializeApp(DB_CONFIG);
     this.database = this.app.database().ref().child('players');
@@ -59,13 +60,27 @@ class App extends Component {
     this.database.push().set({ playerContent: player, votes: 0});
   }
 
+  //Legacy remove player
   removePlayer(playerId){
     this.database.child(playerId).remove();
   }
 
   downvotePlayer(playerId){
-    this.database.child(playerId).votes--;
-  }
+    this.database.child(playerId).transaction(function (player) {
+        if (player) {
+            player.votes--
+        }
+        return player;
+    });
+}
+  upvotePlayer(playerId){
+    this.database.child(playerId).transaction(function (player) {
+      if (player) {
+          player.votes++
+      }
+      return player;
+  });
+}
   
   render() {
     return (
@@ -90,7 +105,8 @@ class App extends Component {
             playerId={player.id} 
             key={player.id}
             removePlayer={this.removePlayer}
-            downvotePlayer={this.downvotePlayer} />
+            downvotePlayer={this.downvotePlayer}
+            upvotePlayer={this.upvotePlayer} />
          )
         })
         }

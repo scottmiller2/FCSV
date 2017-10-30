@@ -27,13 +27,14 @@ class Player extends Component{
     render(props){
         return(
             <div className="player fade-in">
-                <span className="upbtn">
-                x
+                <span className="upbtn"
+                onClick={() => this.handleUpvote(this.playerId)}>
+                &#9650;
                 </span>
                 <p className="playerContent">{ this.playerContent }</p>
                 <span className="downbtn" 
                 onClick={() => this.handleDownvote(this.playerId)}>
-                &times;
+                &#9660;
                 </span>
                 
             </div>
