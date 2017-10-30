@@ -52,6 +52,7 @@ class App extends Component {
 
   }
 
+  //
   //Add player and set the players votes to 0
   //Will need to check to see if the player is already added, eventually
   addPlayer(player){
