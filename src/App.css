@@ -70,37 +70,88 @@ body {
 
 .playersFooter {
   display: flex;
+  align-items: center;
+  justify-content: center;
   flex: 1 1 5%;
   background-color: rgba(0, 0, 0, 0, 0.5);
 }
 
-.trendTitles {
-  margin: auto;
-  margin-top: 55px;
-  width: 50%;
-  min-width: 50%;
-	height: 45px;
-  display: flex;
+
+
+
+a {
+  color: #000;
+  transition: 0.5s;
+}
+
+a:hover {
+  color: #333;
+  transition: 0.5s;
+  text-decoration: none;
+}
+
+#main{
+  margin-top: 30px;
+}
+
+.category{
+  border-radius: 3px;
+}
+
+.col-heading {
+  text-align: center;
+  color: #aaa;
+  background-color: #333;
+  padding: 4px;
+  margin: 6px 0px;
+  border-radius: 8px;
+}
+
+.plyr {
+  margin-bottom: 3px;
+  border-radius: 8px!important;
+  text-align: center;
+}
+
+.up {
+  background-color: rgba(38,166,154,0.8);
+}
+
+.down {
+  background-color: rgba(255,238,88,0.8);
+}
+
+.injured {
+  background-color: rgba(239,83,80,0.8);
+}
+
+.vote {
+  transition: 0.3s;
+  background-color: rgba(0,0,0,0.1);
+  text-align: center;
+  width: 30px;
+  height: 30px;
+  font-weight: bold;
+  border-radius: 50%;
+  padding: 2px;
+}
+
+.vote:hover {
+  transition: 0.3s;
   background-color: rgba(0,0,0,0.3);
-  -moz-border-radius: 10px / 10px;
-	-webkit-border-radius: 10px / 10px;
-	border-radius: 10px / 10px;
-
+  text-align: center;
+  width: 30px;
+  height: 30px;
+  font-weight: bold;
+  border-radius: 50%;
+  padding: 2px;
 }
 
-.trendTitlesText {
-  margin: auto;
-  -webkit-column-count: 3; /* Chrome, Safari, Opera */
-  -moz-column-count: 3; /* Firefox */
-  column-count: 3;
-  -webkit-column-gap: 5px; /* Chrome, Safari, Opera */
-  -moz-column-gap: 5px; /* Firefox */
-  padding-left: 18px;
-  padding-top: 6px;
-  min-height: .5em;
-  max-height: 3.0em;
-  font-size: 1.0em;
-  color: rgba(0,0,0,0.9);
-  font-family: 'Roboto', sans-serif;
-  text-transform: uppercase;
+.u {
+  float: left;
 }
+
+.d{
+  float: right;
+}
+

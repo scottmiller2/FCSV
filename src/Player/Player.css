@@ -42,6 +42,10 @@
   .downbtn:hover {
     color: #fcce66;
 }
+
+  .downbtn:active{
+    color: #fcce66;
+  }
   .upbtn {
     color: #AA9;
     font-weight: bold;
@@ -52,3 +56,7 @@
   .upbtn:hover {
     color: #00ab9e;
 }
+
+  .upbtn:active {
+    color: #00ab9e;
+  }
