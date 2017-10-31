@@ -40,6 +40,8 @@ writePlayer(){
             <button className="downvoteButton" onClick={this.writePlayer}>&#9660;</button>
             <button className="injuryButton" onClick={this.writePlayer}>&times;</button>
             </div>
+
+
         )
     }
 }

@@ -25,9 +25,9 @@
   }
   
   .playerContent{
-    margin-left: 45px;
-    margin-top: 2px;
-    display: block;
+    margin-bottom: 3px;
+    border-radius: 8px!important;
+    text-align: center;
   }
   
   .downbtn {

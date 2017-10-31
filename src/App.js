@@ -95,74 +95,9 @@ class App extends Component {
         <div className="playersFooter">
           <PlayerForm addPlayer={this.addPlayer}/>
         </div>
-
-        <div class="container body-content" id="main">
-  <div class="row category">
-    <div class="col-md-4">
-      <div class="col-heading">
-        TRENDING UP
-      </div>
-      <ul class="list-group">
-        <li class="list-group-item plyr up">
-          <a href="#"><span class="vote u">+</span></a>
-          <span>JuJu Smith-Shuster</span>
-          <a href="#"><span class="vote d">-</span></a>
-        </li>
-        <li class="list-group-item plyr up">
-          <a href="#"><span class="vote u">+</span></a>
-          <span>Tevin Coleman</span>
-          <a href="#"><span class="vote d">-</span></a>
-        </li>
-        <li class="list-group-item plyr up">
-          <a href="#"><span class="vote u">+</span></a>
-          <span>Jesse James</span>
-          <a href="#"><span class="vote d">-</span></a>
-        </li>
-      </ul>
-    </div>
-    <div class="col-md-4">
-      <div class="col-heading">
-        TRENDING DOWN
-      </div>
-      <ul class="list-group">
-        <li class="list-group-item plyr down">
-          <a href="#"><span class="vote u">+</span></a>
-          <span>Martavis Bryant</span>
-          <a href="#"><span class="vote d">-</span></a>
-        </li>
-        <li class="list-group-item plyr down">
-          <a href="#"><span class="vote u">+</span></a>
-          <span>Jamison Crowder</span>
-          <a href="#"><span class="vote d">-</span></a>
-        </li>
-        <li class="list-group-item plyr down">
-          <a href="#"><span class="vote u">+</span></a>
-          <span>Corey Davis</span>
-          <a href="#"><span class="vote d">-</span></a>
-        </li>
-      </ul>
-    </div>
-    <div class="col-md-4">
-      <div class="col-heading">
-        INJURED
-      </div>
-      <ul class="list-group">
-        <li class="list-group-item plyr injured">
-          <span>Aaron Rodgers</span>
-        </li>
-        <li class="list-group-item plyr injured">
-          <span>Zach Miller</span>
-        </li>
-      </ul>
-    </div>
-  </div>
-</div>
-        
-        
-        
-        
         <div className="playersBody">
           {
+            
             this.state.players.map((player) => {
               return (
             <Player playerContent={player.playerContent}
