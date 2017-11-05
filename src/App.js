@@ -11,46 +11,44 @@ class App extends Component {
   constructor(props){
     super(props);
     this.addPlayer = this.addPlayer.bind(this);
-    this.removePlayer = this.removePlayer.bind(this);
     this.downvotePlayer = this.downvotePlayer.bind(this);
     this.upvotePlayer = this.upvotePlayer.bind(this);
 
     this.app = firebase.initializeApp(DB_CONFIG);
     this.database = this.app.database().ref().child('players');
 
+
     // We're going to setup the React state of our component
     this.state = {
-      players: [], 
+      players: [],
+
     }
   }
+  
 
   componentWillMount(){
     const previousPlayers = this.state.players;
+
     
     // DataSnapshots
     this.database.on('child_added', snap => {
       previousPlayers.push({
         id: snap.key,
         playerContent: snap.val().playerContent,
+        votes: snap.val().votes,
       })
+
+    //Update data when a childs info is changed
+    //variable changedVote is assigned the value being changed
+    this.database.on("child_changed", function(snapshot) {
+      var changedVote = snapshot.val();
+      console.log("new value: " + changedVote.votes)
+      });
 
     this.setState({
       players: previousPlayers
       })
     })
-
-    this.database.on('child_removed', snap => {
-      for(var i=0; i < previousPlayers.length; i++){
-        if(previousPlayers[i].id === snap.key){
-          previousPlayers.splice(i, 1);
-        }
-      }
-
-      this.setState({
-        players: previousPlayers
-        })  
-    })
-
   }
 
   //
@@ -58,11 +56,6 @@ class App extends Component {
   //Will need to check to see if the player is already added, eventually
   addPlayer(player){
     this.database.push().set({ playerContent: player, votes: 0});
-  }
-
-  //Initial remove player
-  removePlayer(playerId){
-    this.database.child(playerId).remove();
   }
 
   //Trending influence
@@ -96,9 +89,7 @@ class App extends Component {
           <PlayerForm addPlayer={this.addPlayer}/>
         </div>
 
-        
 
-        
         <div className="playersBody">
           {
             
@@ -107,11 +98,12 @@ class App extends Component {
             <Player playerContent={player.playerContent}
             playerId={player.id} 
             key={player.id}
-            removePlayer={this.removePlayer}
             downvotePlayer={this.downvotePlayer}
             upvotePlayer={this.upvotePlayer} />
               )
             })
+
+
           }
         </div>
         

@@ -8,11 +8,6 @@ class Player extends Component{
         super(props);
         this.playerContent = props.playerContent;
         this.playerId = props.playerId;
-        this.handleRemovePlayer = this.handleRemovePlayer.bind(this);
-    }
-
-    handleRemovePlayer(id){
-        this.props.removePlayer(id)
     }
 
     handleUpvote(id){
