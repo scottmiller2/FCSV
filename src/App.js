@@ -95,6 +95,10 @@ class App extends Component {
         <div className="playersFooter">
           <PlayerForm addPlayer={this.addPlayer}/>
         </div>
+
+        
+
+        
         <div className="playersBody">
           {
             
@@ -106,9 +110,9 @@ class App extends Component {
             removePlayer={this.removePlayer}
             downvotePlayer={this.downvotePlayer}
             upvotePlayer={this.upvotePlayer} />
-         )
-        })
-        }
+              )
+            })
+          }
         </div>
         
         </div>

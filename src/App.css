@@ -58,7 +58,7 @@ body {
 }
 
 .playersBody {
-  padding-top: 5px;
+  padding-top: 50px;
   display: flex;
   flex: 1 1 85%;
   flex-wrap: wrap;

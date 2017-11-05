@@ -9,7 +9,6 @@ class Player extends Component{
         this.playerContent = props.playerContent;
         this.playerId = props.playerId;
         this.handleRemovePlayer = this.handleRemovePlayer.bind(this);
-        this.handleDownvote = this.handleDownvote.bind(this);
     }
 
     handleRemovePlayer(id){
@@ -27,14 +26,14 @@ class Player extends Component{
     render(props){
         return(
             <div className="player fade-in">
-                <span className="upbtn"
+                <span className="vote up"
                 onClick={() => this.handleUpvote(this.playerId)}>
-                &#9650;
+                &#9651;
                 </span>
                 <p className="playerContent">{ this.playerContent }</p>
-                <span className="downbtn" 
+                <span className="vote down" 
                 onClick={() => this.handleDownvote(this.playerId)}>
-                &#9660;
+                &#9661;
                 </span>
                 
             </div>
