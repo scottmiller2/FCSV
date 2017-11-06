@@ -21,8 +21,20 @@ body {
 
 .playersWrapper {
   display: flex;
-  align-content: center;
   flex-direction: column;
+}
+
+.playersBody {
+  padding-top: 50px;
+  overflow: auto;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.playersColumns {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
 }
 
 .playersHeader {
@@ -55,14 +67,6 @@ body {
   display: block;
   text-transform: uppercase;
   text-decoration: overline;
-}
-
-.playersBody {
-  display: flex;
-  flex-direction: column;
-  flex: 1 1 85%;
-  padding-top: 50px;
-  overflow: auto;
 }
 
 .playersFooter {
