@@ -22,22 +22,24 @@ handleUserInput(e){
 writePlayer(){
     // call a method that sets the playerContent for a player to
     // the value of the input
-
-    // Set newPlayerContent back to an empty string. 
     this.props.addPlayer(this.state.newPlayerContent);
     
+    // Set newPlayerContent back to an empty string. 
     this.setState({
         newPlayerContent: '',
     })
 }
+
     render(){
         return(
-            <div className="formWrapper">
+            <div className="searchArea">
                 <input className="playerInput"
                 placeholder="Search by player name" 
                 value={this.state.newPlayerContent} 
                 onChange={this.handleUserInput} />
-                <button className="playerButton" onClick={this.writePlayer}>Search</button>
+            <button className="upvoteButton" onClick={this.writePlayer}>&#9650;</button>
+            <button className="downvoteButton" onClick={this.writePlayer}>&#9660;</button>
+            <button className="injuryButton" onClick={this.writePlayer}>x</button>
             </div>
         )
     }

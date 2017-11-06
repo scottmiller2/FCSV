@@ -11,60 +11,63 @@ class App extends Component {
   constructor(props){
     super(props);
     this.addPlayer = this.addPlayer.bind(this);
-    this.removePlayer = this.removePlayer.bind(this);
     this.downvotePlayer = this.downvotePlayer.bind(this);
     this.upvotePlayer = this.upvotePlayer.bind(this);
-
     this.app = firebase.initializeApp(DB_CONFIG);
     this.database = this.app.database().ref().child('players');
 
+
     // We're going to setup the React state of our component
     this.state = {
-      players: [], 
+      players: [],
+
     }
   }
+  
 
   componentWillMount(){
     const previousPlayers = this.state.players;
+
     
     // DataSnapshots
     this.database.on('child_added', snap => {
       previousPlayers.push({
         id: snap.key,
         playerContent: snap.val().playerContent,
+        votes: snap.val().votes,
+        rank: snap.val().rank,
       })
+
+    //Update data when a childs info is changed
+    //variable changedVote is assigned the value being changed
+    this.database.on("child_changed", function(snapshot) {
+      var name = snapshot.val();
+      console.log("Name: " + name.playerContent + ". Votes: " + name.votes + ".")
+      
+      for(var i = 0; i < previousPlayers.length; i++){
+         if (previousPlayers[i].votes > 0){          
+           
+          name.rank = "up"
+          console.log(name.rank)
+
+         }
+       }
+      });
 
     this.setState({
       players: previousPlayers
       })
     })
-
-    this.database.on('child_removed', snap => {
-      for(var i=0; i < previousPlayers.length; i++){
-        if(previousPlayers[i].id === snap.key){
-          previousPlayers.splice(i, 1);
-        }
-      }
-
-      this.setState({
-        players: previousPlayers
-        })  
-    })
-
   }
 
   //
   //Add player and set the players votes to 0
   //Will need to check to see if the player is already added, eventually
   addPlayer(player){
-    this.database.push().set({ playerContent: player, votes: 0});
+    this.database.push().set({ playerContent: player, votes: 0, rank: "neutral"});
   }
 
-  //Legacy remove player
-  removePlayer(playerId){
-    this.database.child(playerId).remove();
-  }
-
+  //Trending influence
   downvotePlayer(playerId){
     this.database.child(playerId).transaction(function (player) {
         if (player) {
@@ -87,16 +90,15 @@ class App extends Component {
       <div className="playersWrapper">
         <div className="playersHeader">
           <div className="heading">Fantsy <img src={require('./Static/img/4.png'  ) } 
-          style={{width: 65, height: 43}}
+          style={{width: 65, height: 43}} alt={"background"}
           /> </div>
           <div className="subheading">Crowdsourced player trends</div>
         </div>
         <div className="playersFooter">
           <PlayerForm addPlayer={this.addPlayer}/>
         </div>
-        <div className="trendTitles"><span className="trendTitlesText">Trending Up</span> <span className="trendTitlesText"> Trending Down</span> <span className="trendTitlesText"> Injured
-        </span>
-        </div>
+
+        <div className="playersColumns">
         <div className="playersBody">
           {
             this.state.players.map((player) => {
@@ -104,15 +106,27 @@ class App extends Component {
             <Player playerContent={player.playerContent}
             playerId={player.id} 
             key={player.id}
-            removePlayer={this.removePlayer}
             downvotePlayer={this.downvotePlayer}
             upvotePlayer={this.upvotePlayer} />
-         )
-        })
-        }
+              )
+            })
+          }
         </div>
-        
-        </div>
+        <div className="playersBody">
+          { 
+            this.state.players.map((player) => {
+              return (
+            <Player playerContent={player.playerContent}
+            playerId={player.id} 
+            key={player.id}
+            downvotePlayer={this.downvotePlayer}
+            upvotePlayer={this.upvotePlayer} />
+              )
+            })
+          }
+          </div>
+          </div>
+        </div> //playersWrapper
     );
   }
 }

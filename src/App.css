@@ -21,9 +21,20 @@ body {
 
 .playersWrapper {
   display: flex;
-  flex: 1 1 align-self;
   flex-direction: column;
-  height: 100%;
+}
+
+.playersBody {
+  padding-top: 50px;
+  overflow: auto;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.playersColumns {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
 }
 
 .playersHeader {
@@ -58,29 +69,21 @@ body {
   text-decoration: overline;
 }
 
-.playersBody {
-  padding-top: 5px;
-  display: flex;
-  flex: 1 1 85%;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  align-content: flex-start;
-  overflow: auto;
-}
-
 .playersFooter {
   display: flex;
-  flex: 1 1 5%;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 10%;
   background-color: rgba(0, 0, 0, 0, 0.5);
 }
 
 .trendTitles {
-  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-top: 55px;
   width: 50%;
-  min-width: 50%;
 	height: 45px;
-  display: flex;
   background-color: rgba(0,0,0,0.3);
   -moz-border-radius: 10px / 10px;
 	-webkit-border-radius: 10px / 10px;
@@ -89,7 +92,7 @@ body {
 }
 
 .trendTitlesText {
-  margin: auto;
+  align-items: center;
   -webkit-column-count: 3; /* Chrome, Safari, Opera */
   -moz-column-count: 3; /* Firefox */
   column-count: 3;
