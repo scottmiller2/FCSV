@@ -10,26 +10,30 @@ class App extends Component {
 
   constructor(props){
     super(props);
-    this.addPlayer = this.addPlayer.bind(this);
-    this.downvotePlayer = this.downvotePlayer.bind(this);
-    this.upvotePlayer = this.upvotePlayer.bind(this);
-    this.app = firebase.initializeApp(DB_CONFIG);
-    this.database = this.app.database().ref().child('players');
-
-
-    // We're going to setup the React state of our component
     this.state = {
       players: [],
 
     }
+    this.addPlayer = this.addPlayer.bind(this);
+    this.vote = this.vote.bind(this);
+    this.app = firebase.initializeApp(DB_CONFIG);
+    this.database = this.app.database().ref().child('players');
+
+    this.players = [];
   }
-  
 
   componentWillMount(){
     const previousPlayers = this.state.players;
-
     
-    // DataSnapshots
+    this.database.orderByChild('votes').on("child_added", (dataSnapshot) => {
+        console.log('new child', dataSnapshot.val())
+
+        this.players.push(dataSnapshot.val());
+        this.setState({
+          players: this.players
+        });
+      })
+    
     this.database.on('child_added', snap => {
       previousPlayers.push({
         id: snap.key,
@@ -37,55 +41,33 @@ class App extends Component {
         votes: snap.val().votes,
         rank: snap.val().rank,
       })
+    })    
+}
 
-    //Update data when a childs info is changed
-    //variable changedVote is assigned the value being changed
-    this.database.on("child_changed", function(snapshot) {
-      var name = snapshot.val();
-      console.log("Name: " + name.playerContent + ". Votes: " + name.votes + ".")
+  vote(playerToVote, step) {
+    	let updatePlayer = {
+        ...playerToVote,
+       votes: playerToVote.votes + step
+      };
+      let index = this.players.indexOf(this.players.
+    	filter(player => player.key === playerToVote.key)[0]);
       
-      for(var i = 0; i < previousPlayers.length; i++){
-         if (previousPlayers[i].votes > 0){          
-           
-          name.rank = "up"
-          console.log(name.rank)
-
-         }
-       }
-      });
-
-    this.setState({
-      players: previousPlayers
-      })
-    })
+      this.players[index] = updatePlayer;
+    
+      this.database.child(playerToVote.key).set(updatePlayer);
+    	this.setState({
+      ...this.state,
+    	players: this.players
+  	});
   }
 
-  //
-  //Add player and set the players votes to 0
-  //Will need to check to see if the player is already added, eventually
   addPlayer(player){
     this.database.push().set({ playerContent: player, votes: 0, rank: "neutral"});
   }
 
-  //Trending influence
-  downvotePlayer(playerId){
-    this.database.child(playerId).transaction(function (player) {
-        if (player) {
-            player.votes--
-        }
-        return player;
-    });
-}
-  upvotePlayer(playerId){
-    this.database.child(playerId).transaction(function (player) {
-      if (player) {
-          player.votes++
-      }
-      return player;
-  });
-}
-  
   render() {
+    const players = this.state.players;
+  
     return (
       <div className="playersWrapper">
         <div className="playersHeader">
@@ -103,11 +85,11 @@ class App extends Component {
           {
             this.state.players.map((player) => {
               return (
-            <Player playerContent={player.playerContent}
-            playerId={player.id} 
+            <Player 
+            playerContent={player.playerContent}
+            player={player}
             key={player.id}
-            downvotePlayer={this.downvotePlayer}
-            upvotePlayer={this.upvotePlayer} />
+            />
               )
             })
           }
@@ -116,11 +98,11 @@ class App extends Component {
           { 
             this.state.players.map((player) => {
               return (
-            <Player playerContent={player.playerContent}
-            playerId={player.id} 
+            <Player 
+            playerContent={player.playerContent}
+            player={player} 
             key={player.id}
-            downvotePlayer={this.downvotePlayer}
-            upvotePlayer={this.upvotePlayer} />
+            />
               )
             })
           }

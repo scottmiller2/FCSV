@@ -8,26 +8,23 @@ class Player extends Component{
         super(props);
         this.playerContent = props.playerContent;
         this.playerId = props.playerId;
+        this.handleVote = this.handleVote.bind(this);
     }
 
-    handleUpvote(id){
-        this.props.upvotePlayer(id)
-    }
-
-    handleDownvote(id){
-        this.props.downvotePlayer(id)
+    handleVote(player, step){
+        this.props.vote(this.player, this.step);
     }
 
     render(props){
         return(
             <div className="player fade-in">
                 <span className="vote up"
-                onClick={() => this.handleUpvote(this.playerId)}>
+                onClick={this.handleVote(this.player, +1)}>
                 &#9651;
                 </span>
-                <p className="playerContent">{ this.playerContent }</p>
+                <p className="playerContent">{this.playerContent}</p>
                 <span className="vote down" 
-                onClick={() => this.handleDownvote(this.playerId)}>
+                onClick={this.handleVote(this.player, -1)}>
                 &#9661;
                 </span>
                 
