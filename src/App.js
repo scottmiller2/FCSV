@@ -71,10 +71,10 @@ class App extends Component {
     return (
       <div className="playersWrapper">
         <div className="playersHeader">
-          <div className="heading">Fantsy <img src={require('./Static/img/4.png'  ) } 
+          <div className="heading">F <img src={require('./Static/img/4.png'  ) } 
           style={{width: 65, height: 43}} alt={"background"}
           /> </div>
-          <div className="subheading">Crowdsourced player trends</div>
+          <div className="subheading">player trends</div>
         </div>
         <div className="playersFooter">
           <PlayerForm addPlayer={this.addPlayer}/>
