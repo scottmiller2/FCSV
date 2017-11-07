@@ -16,9 +16,11 @@ class App extends Component {
 
     }
     this.addPlayer = this.addPlayer.bind(this);
-    //this.vote = this.vote.bind(this);
+    this.downvotePlayer = this.downvotePlayer.bind(this);
+    this.upvotePlayer = this.upvotePlayer.bind(this);
     this.app = firebase.initializeApp(DB_CONFIG);
     this.database = this.app.database().ref().child('players');
+
     this.players = [];
   }
 
@@ -30,7 +32,7 @@ class App extends Component {
         
         this.players.push(dataSnapshot.val());
         this.setState({
-          players: this.players
+          players: previousPlayers
         });
       })
     
@@ -41,29 +43,34 @@ class App extends Component {
         votes: snap.val().votes,
         rank: snap.val().rank,
       })
+      this.setState({
+      players: previousPlayers
+      });
     })    
 }
 
-  /*vote(playerToVote, step) {
-    	let updatePlayer = {
-      ...playerToVote,
-      votes: playerToVote.votes + step
-      };
-      let index = this.players.indexOf(this.players.
-    	filter(player => player.key === playerToVote.key)[0]);
-      
-      this.players[index] = updatePlayer;
-    
-      this.database.child(playerToVote.key).set(updatePlayer);
-    	this.setState({
-      ...this.state,
-    	players: this.players
-  	});
-  }*/
 
   addPlayer(player){
     this.database.push().set({ playerContent: player, votes: 0, rank: 0});
   }
+
+  //Trending influence
+  downvotePlayer(playerId){
+    this.database.child(playerId).transaction(function (player) {
+        if (playerId) {
+            player.votes--
+        }
+        return player;
+    });
+}
+  upvotePlayer(playerId){
+    this.database.child(playerId).transaction(function (player) {
+      if (playerId) {
+          player.votes++
+      }
+      return player;
+  });
+}
 
   render() {
     const players = this.state.players;
@@ -89,9 +96,9 @@ class App extends Component {
             <Player 
             playerContent={player.playerContent}
             playerId={player.id}
-            player={player}
+            upvotePlayer={this.upvotePlayer}
+            downvotePlayer={this.downvotePlayer}
             key={player.id}
-            //vote={this.vote}
             />
               )
             })
@@ -104,9 +111,9 @@ class App extends Component {
             <Player 
             playerContent={player.playerContent}
             playerId={player.id}
-            player={player}
+            upvotePlayer={this.upvotePlayer}
+            downvotePlayer={this.downvotePlayer}
             key={player.id}
-            //vote={this.vote}
             />
               )
             })
