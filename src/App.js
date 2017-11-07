@@ -5,6 +5,7 @@ import { DB_CONFIG } from './Config/config';
 import firebase from 'firebase/app';
 import 'firebase/database';
 import './App.css';
+import _ from 'lodash';
 
 class App extends Component {
 
@@ -15,10 +16,9 @@ class App extends Component {
 
     }
     this.addPlayer = this.addPlayer.bind(this);
-    this.vote = this.vote.bind(this);
+    //this.vote = this.vote.bind(this);
     this.app = firebase.initializeApp(DB_CONFIG);
     this.database = this.app.database().ref().child('players');
-
     this.players = [];
   }
 
@@ -27,7 +27,7 @@ class App extends Component {
     
     this.database.orderByChild('votes').on("child_added", (dataSnapshot) => {
         console.log('new child', dataSnapshot.val())
-
+        
         this.players.push(dataSnapshot.val());
         this.setState({
           players: this.players
@@ -44,10 +44,10 @@ class App extends Component {
     })    
 }
 
-  vote(playerToVote, step) {
+  /*vote(playerToVote, step) {
     	let updatePlayer = {
-        ...playerToVote,
-       votes: playerToVote.votes + step
+      ...playerToVote,
+      votes: playerToVote.votes + step
       };
       let index = this.players.indexOf(this.players.
     	filter(player => player.key === playerToVote.key)[0]);
@@ -59,15 +59,16 @@ class App extends Component {
       ...this.state,
     	players: this.players
   	});
-  }
+  }*/
 
   addPlayer(player){
-    this.database.push().set({ playerContent: player, votes: 0, rank: "neutral"});
+    this.database.push().set({ playerContent: player, votes: 0, rank: 0});
   }
 
   render() {
     const players = this.state.players;
-  
+    const orderedPlayersUp = _.orderBy(players, ['votes'], ['asc']);
+    const orderedPlayersDown = _.orderBy(players, ['votes']);
     return (
       <div className="playersWrapper">
         <div className="playersHeader">
@@ -83,12 +84,14 @@ class App extends Component {
         <div className="playersColumns">
         <div className="playersBody">
           {
-            this.state.players.map((player) => {
+            orderedPlayersUp.map((player) => {
               return (
             <Player 
             playerContent={player.playerContent}
+            playerId={player.id}
             player={player}
             key={player.id}
+            //vote={this.vote}
             />
               )
             })
@@ -96,12 +99,14 @@ class App extends Component {
         </div>
         <div className="playersBody">
           { 
-            this.state.players.map((player) => {
+            orderedPlayersDown.map((player) => {
               return (
             <Player 
             playerContent={player.playerContent}
-            player={player} 
+            playerId={player.id}
+            player={player}
             key={player.id}
+            //vote={this.vote}
             />
               )
             })
