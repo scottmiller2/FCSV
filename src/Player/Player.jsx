@@ -8,7 +8,6 @@ class Player extends Component{
     constructor(props){
         super(props);
         this.playerContent = props.playerContent;
-        this.key = props.key;
         this.playerId = props.playerId;
     }
 
@@ -25,12 +24,12 @@ class Player extends Component{
         return(
             <div className="player fade-in">
                 <span className="vote up"
-                onClick={this.handleUpvote(this.playerId)}>
+                onClick={() => this.handleUpvote(this.playerId)}>
                 &#9651;
                 </span>
                 <p className="playerContent">{this.playerContent}</p>
                 <span className="vote down" 
-                onClick={this.handleDownvote(this.playerId)}>
+                onClick={() => this.handleDownvote(this.playerId)}>
                 &#9661;
                 </span>
                 

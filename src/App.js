@@ -11,31 +11,24 @@ class App extends Component {
 
   constructor(props){
     super(props);
-    this.state = {
-      players: [],
 
-    }
     this.addPlayer = this.addPlayer.bind(this);
     this.downvotePlayer = this.downvotePlayer.bind(this);
     this.upvotePlayer = this.upvotePlayer.bind(this);
     this.app = firebase.initializeApp(DB_CONFIG);
     this.database = this.app.database().ref().child('players');
 
+    this.state = {
+      players: [],
+
+    }
+
     this.players = [];
   }
 
   componentWillMount(){
     const previousPlayers = this.state.players;
-    
-    this.database.orderByChild('votes').on("child_added", (dataSnapshot) => {
-        console.log('new child', dataSnapshot.val())
-        
-        this.players.push(dataSnapshot.val());
-        this.setState({
-          players: previousPlayers
-        });
-      })
-    
+
     this.database.on('child_added', snap => {
       previousPlayers.push({
         id: snap.key,
@@ -43,10 +36,22 @@ class App extends Component {
         votes: snap.val().votes,
         rank: snap.val().rank,
       })
-      this.setState({
+   
+    
+    this.database.on('child_changed', snap => {
+      previousPlayers.push({
+      
+        id: snap.key,
+        playerContent: snap.val().playerContent,
+        votes: snap.val().votes
+      })
+      console.log("Player: " + snap.val().playerContent + " has  " + snap.val().votes + " votes.")
+      
+    })
+    this.setState({
       players: previousPlayers
-      });
-    })    
+      }); 
+  })
 }
 
 
@@ -57,7 +62,7 @@ class App extends Component {
   //Trending influence
   downvotePlayer(playerId){
     this.database.child(playerId).transaction(function (player) {
-        if (playerId) {
+        if (player) {
             player.votes--
         }
         return player;
@@ -65,7 +70,7 @@ class App extends Component {
 }
   upvotePlayer(playerId){
     this.database.child(playerId).transaction(function (player) {
-      if (playerId) {
+      if (player) {
           player.votes++
       }
       return player;
@@ -98,8 +103,7 @@ class App extends Component {
             playerId={player.id}
             upvotePlayer={this.upvotePlayer}
             downvotePlayer={this.downvotePlayer}
-            key={player.id}
-            />
+            key={player.id}/>
               )
             })
           }
@@ -113,8 +117,7 @@ class App extends Component {
             playerId={player.id}
             upvotePlayer={this.upvotePlayer}
             downvotePlayer={this.downvotePlayer}
-            key={player.id}
-            />
+            key={player.id}/>
               )
             })
           }
