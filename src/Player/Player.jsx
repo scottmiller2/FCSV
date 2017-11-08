@@ -25,12 +25,12 @@ class Player extends Component{
             <div className="player fade-in">
                 <span className="vote up"
                 onClick={() => this.handleUpvote(this.playerId)}>
-                &#9651;
+                &#9650;
                 </span>
                 <p className="playerContent">{this.playerContent}</p>
                 <span className="vote down" 
                 onClick={() => this.handleDownvote(this.playerId)}>
-                &#9661;
+                &#9660;
                 </span>
                 
             </div>

@@ -38,16 +38,11 @@ class App extends Component {
       })
    
     
-    this.database.on('child_changed', snap => {
-      previousPlayers.push({
-      
-        id: snap.key,
-        playerContent: snap.val().playerContent,
-        votes: snap.val().votes
-      })
-      console.log("Player: " + snap.val().playerContent + " has  " + snap.val().votes + " votes.")
-      
+    this.database.on('child_changed', function(snapshot) {
+      var name = snapshot.val();
+      console.log("Player: " + name.playerContent + " has  " + name.votes + " votes.")
     })
+
     this.setState({
       players: previousPlayers
       }); 
@@ -79,20 +74,19 @@ class App extends Component {
 
   render() {
     const players = this.state.players;
-    const orderedPlayersUp = _.orderBy(players, ['votes'], ['asc']);
+    const orderedPlayersUp = _.orderBy(players, ['votes'], ['desc']);
     const orderedPlayersDown = _.orderBy(players, ['votes']);
     return (
       <div className="playersWrapper">
         <div className="playersHeader">
-          <div className="heading">F <img src={require('./Static/img/4.png'  ) } 
+          <div className="heading">Fantsy <img src={require('./Static/img/4.png'  ) } 
           style={{width: 65, height: 43}} alt={"background"}
           /> </div>
-          <div className="subheading">player trends</div>
+          <div className="subheading">Crowdsourced Player trends</div>
         </div>
         <div className="playersFooter">
           <PlayerForm addPlayer={this.addPlayer}/>
         </div>
-
         <div className="playersColumns">
         <div className="playersBody">
           {
@@ -101,9 +95,9 @@ class App extends Component {
             <Player 
             playerContent={player.playerContent}
             playerId={player.id}
+            key={player.id}
             upvotePlayer={this.upvotePlayer}
-            downvotePlayer={this.downvotePlayer}
-            key={player.id}/>
+            downvotePlayer={this.downvotePlayer}/>
               )
             })
           }
@@ -115,9 +109,9 @@ class App extends Component {
             <Player 
             playerContent={player.playerContent}
             playerId={player.id}
+            key={player.id}
             upvotePlayer={this.upvotePlayer}
-            downvotePlayer={this.downvotePlayer}
-            key={player.id}/>
+            downvotePlayer={this.downvotePlayer}/>
               )
             })
           }
