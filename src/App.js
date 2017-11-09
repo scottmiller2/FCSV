@@ -89,6 +89,7 @@ class App extends Component {
         </div>
         <div className="playersColumns">
         <div className="playersBody">
+          <span className="trendHeaderUp">TRENDING UP</span>
           {
             orderedPlayersUp.map((player) => {
               return (
@@ -103,6 +104,7 @@ class App extends Component {
           }
         </div>
         <div className="playersBody">
+        <span className="trendHeaderDown">TRENDING DOWN</span>
           { 
             orderedPlayersDown.map((player) => {
               return (
