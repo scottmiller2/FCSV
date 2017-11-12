@@ -7,9 +7,15 @@
     font-size: 1.1em;
     color: #222;
     background-color: rgba(238, 238, 221, 0.8);
-    border-radius: 3px;
+    border-radius: 5px;
     box-shadow: 43x 3px 2px #333;
+  }
+  .up {
+    background-color: #00ab9e;
+  }
 
+  .down {
+    background-color: #fb655a;
   }
   
   @keyframes fadeIn { from { opacity:0; } to { opacity:0.8; } }
@@ -21,7 +27,7 @@
       opacity:0;
       animation:fadeIn ease-in 1;
       animation-fill-mode:forwards;
-      animation-duration: 0.1s;
+      animation-duration: 0.7s;
   }
   
   .playerContent{
@@ -34,43 +40,56 @@
   .vote {
     display: flex;
     transition: 0.1s;
-    background-color: rgba(238, 238, 221, 0.5);
-    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.863);
+    justify-content: space-evenly;
     width: 30px;
     height: 30px;
     font-weight: bold;
     border-style: solid;
     border-width: 1px;
-    border-radius: 4px;
-    border-color: grey;
+    border-radius: 15px;
+    border-color:rgba(168, 168, 168, 0.4);
+    -webkit-user-select: none; /* Chrome/Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+ */
+    user-select: none;
   }
 
   .up {
     align-items: center;
-    font-size: 1.0em;
+    font-size: 1.1em;
+    padding-bottom: 2px;
     float: left;
+    color: #00ab9e;
     cursor: pointer;
 }
 
   .down {
     align-items: center;
     font-size: 1.0em;
+    padding-top: 2px;
+    margin-right: 3px;
     float: right;
+    color: #fb655a;
     cursor: pointer;
   }
 
   .down:hover {
-    color: #fcce66;
+    border-width: 0px;
+    background-color: #fb655a;
+    color: #000;
 }
 
   .down:active{
-    color: #fcce66;
+    color: #000;
   }
 
   .up:hover {
-    color: #00ab9e;
+    border-width: 0px;
+    background-color: #00ab9e;
+    color: #000;
 }
 
   .up:active {
-    color: #00ab9e;
+    color: #000;
   }

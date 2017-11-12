@@ -39,7 +39,6 @@ writePlayer(){
                 onChange={this.handleUserInput} />
             <button className="upvoteButton" onClick={this.writePlayer}>&#9650;</button>
             <button className="downvoteButton" onClick={this.writePlayer}>&#9660;</button>
-            <button className="injuryButton" onClick={this.writePlayer}>x</button>
             </div>
         )
     }

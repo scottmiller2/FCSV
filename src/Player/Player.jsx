@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './Player.css';
 import PropTypes from 'prop-types';
 
+
 class Player extends Component{
 
     constructor(props){
@@ -9,6 +10,7 @@ class Player extends Component{
         this.playerContent = props.playerContent;
         this.playerId = props.playerId;
     }
+
 
     handleUpvote(id){
         this.props.upvotePlayer(id)
@@ -23,12 +25,12 @@ class Player extends Component{
             <div className="player fade-in">
                 <span className="vote up"
                 onClick={() => this.handleUpvote(this.playerId)}>
-                &#9651;
+                &#9650;
                 </span>
-                <p className="playerContent">{ this.playerContent }</p>
+                <p className="playerContent">{this.playerContent}</p>
                 <span className="vote down" 
                 onClick={() => this.handleDownvote(this.playerId)}>
-                &#9661;
+                &#9660;
                 </span>
                 
             </div>

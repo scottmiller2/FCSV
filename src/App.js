@@ -5,31 +5,30 @@ import { DB_CONFIG } from './Config/config';
 import firebase from 'firebase/app';
 import 'firebase/database';
 import './App.css';
+import _ from 'lodash';
 
 class App extends Component {
 
   constructor(props){
     super(props);
+
     this.addPlayer = this.addPlayer.bind(this);
     this.downvotePlayer = this.downvotePlayer.bind(this);
     this.upvotePlayer = this.upvotePlayer.bind(this);
     this.app = firebase.initializeApp(DB_CONFIG);
     this.database = this.app.database().ref().child('players');
 
-
-    // We're going to setup the React state of our component
     this.state = {
       players: [],
 
     }
+
+    this.players = [];
   }
-  
 
   componentWillMount(){
     const previousPlayers = this.state.players;
 
-    
-    // DataSnapshots
     this.database.on('child_added', snap => {
       previousPlayers.push({
         id: snap.key,
@@ -37,34 +36,22 @@ class App extends Component {
         votes: snap.val().votes,
         rank: snap.val().rank,
       })
-
-    //Update data when a childs info is changed
-    //variable changedVote is assigned the value being changed
-    this.database.on("child_changed", function(snapshot) {
+   
+    
+    this.database.on('child_changed', function(snapshot) {
       var name = snapshot.val();
-      console.log("Name: " + name.playerContent + ". Votes: " + name.votes + ".")
-      
-      for(var i = 0; i < previousPlayers.length; i++){
-         if (previousPlayers[i].votes > 0){          
-           
-          name.rank = "up"
-          console.log(name.rank)
-
-         }
-       }
-      });
+      console.log("Player: " + name.playerContent + " has  " + name.votes + " votes.")
+    })
 
     this.setState({
       players: previousPlayers
-      })
-    })
-  }
+      }); 
+  })
+}
 
-  //
-  //Add player and set the players votes to 0
-  //Will need to check to see if the player is already added, eventually
+
   addPlayer(player){
-    this.database.push().set({ playerContent: player, votes: 0, rank: "neutral"});
+    this.database.push().set({ playerContent: player, votes: 0, rank: 0});
   }
 
   //Trending influence
@@ -84,43 +71,51 @@ class App extends Component {
       return player;
   });
 }
-  
+
   render() {
+    const players = this.state.players;
+    const orderedPlayersUp = _.orderBy(players, ['votes'], ['desc']);
+    const orderedPlayersDown = _.orderBy(players, ['votes']);
     return (
       <div className="playersWrapper">
         <div className="playersHeader">
           <div className="heading">Fantsy <img src={require('./Static/img/4.png'  ) } 
           style={{width: 65, height: 43}} alt={"background"}
           /> </div>
-          <div className="subheading">Crowdsourced player trends</div>
+          <div className="subheading">Crowdsourced Player trends</div>
         </div>
         <div className="playersFooter">
           <PlayerForm addPlayer={this.addPlayer}/>
         </div>
-
+        <span className="weekHeading">Week 8 — Thursday Night Football — Seahawks vs. Cardinals</span>
+        <span className="byes">BYES: Arizona, Green Bay, Jacksonville, Los Angeles Rams, New York Giants, Tennessee</span>
         <div className="playersColumns">
         <div className="playersBody">
+          <span className="trendHeaderUp">TRENDING UP</span>
           {
-            this.state.players.map((player) => {
+            orderedPlayersUp.map((player) => {
               return (
-            <Player playerContent={player.playerContent}
-            playerId={player.id} 
+            <Player 
+            playerContent={player.playerContent}
+            playerId={player.id}
             key={player.id}
-            downvotePlayer={this.downvotePlayer}
-            upvotePlayer={this.upvotePlayer} />
+            upvotePlayer={this.upvotePlayer}
+            downvotePlayer={this.downvotePlayer}/>
               )
             })
           }
         </div>
         <div className="playersBody">
+        <span className="trendHeaderDown">TRENDING DOWN</span>
           { 
-            this.state.players.map((player) => {
+            orderedPlayersDown.map((player) => {
               return (
-            <Player playerContent={player.playerContent}
-            playerId={player.id} 
+            <Player 
+            playerContent={player.playerContent}
+            playerId={player.id}
             key={player.id}
-            downvotePlayer={this.downvotePlayer}
-            upvotePlayer={this.upvotePlayer} />
+            upvotePlayer={this.upvotePlayer}
+            downvotePlayer={this.downvotePlayer}/>
               )
             })
           }

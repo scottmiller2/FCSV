@@ -6,7 +6,7 @@ body {
   min-height: 100%;
   background:
     linear-gradient(-45deg, rgba(0,0,0,0.3), rgba(0, 40, 105, 0.8)),
-    url('./Static/img/3.jpg');
+    url('./Static/img/browns.jpg');
     background-attachment: fixed;
     background-size: cover;
 }
@@ -24,19 +24,7 @@ body {
   flex-direction: column;
 }
 
-.playersBody {
-  padding-top: 50px;
-  overflow: auto;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.playersColumns {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-}
-
+/*Fantsy and image*/
 .playersHeader {
   display: flex;
   flex: 1 1 5%;
@@ -47,12 +35,14 @@ body {
   font-family: 'Roboto', sans-serif;
   text-align: center;
   align-content: center;
-  padding: 20px 0px 30px 0px;
+  padding: 30px 0px 35px 0px;
   margin-bottom: 6px;
   background-color: rgba(0,0,0,0.2);
   display: block;
   text-transform: uppercase;
 }
+
+/*Crowdsourced player trends*/
 .subheading {
   display: flex;
   flex: 1 1 5%;
@@ -60,7 +50,7 @@ body {
   max-height: 1.0em;
   font-size: .4em;
   color: rgba(0,0,0,0.8);
-  margin-top: -23px;
+  margin-top: -15px;
   font-family: 'Roboto', sans-serif;
   text-align: center;
   align-content: center;
@@ -69,41 +59,97 @@ body {
   text-decoration: overline;
 }
 
+/*Search area*/
 .playersFooter {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex: 0 0 10%;
+  flex: 1 0 10%;
   background-color: rgba(0, 0, 0, 0, 0.5);
 }
 
-.trendTitles {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 55px;
-  width: 50%;
-	height: 45px;
-  background-color: rgba(0,0,0,0.3);
-  -moz-border-radius: 10px / 10px;
-	-webkit-border-radius: 10px / 10px;
-	border-radius: 10px / 10px;
-
+/*Displays season week #*/
+.weekHeading{
+  margin: auto;
+  margin-top: 5px;
+  padding-top: 6px;
+  height: 55px;
+  width: 570px;
+  text-align: center;
+  background-color: rgba(17, 17, 17, 0.5);
+  color: rgba(238, 238, 221, 0.7);
+  box-shadow: 43x 3px 2px #333;
+  white-space: nowrap;
+  border-radius: 5px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.0em;
 }
 
-.trendTitlesText {
-  align-items: center;
-  -webkit-column-count: 3; /* Chrome, Safari, Opera */
-  -moz-column-count: 3; /* Firefox */
-  column-count: 3;
-  -webkit-column-gap: 5px; /* Chrome, Safari, Opera */
-  -moz-column-gap: 5px; /* Firefox */
-  padding-left: 18px;
-  padding-top: 6px;
-  min-height: .5em;
-  max-height: 3.0em;
-  font-size: 1.0em;
-  color: rgba(0,0,0,0.9);
+.byes {
+  margin: auto;
+  margin-top: 7px;
+  padding-top: 7px;
+  padding-bottom: 5px;
+  height: 55px;
+  width: 570px;
+  text-align: center;
+  background-color: rgba(17, 17, 17, 0.5);
+  color: rgba(238, 238, 221, 0.6);
+  box-shadow: 43x 3px 2px #333;
+  border-radius: 5px;
+  font-family: 'Lato', sans-serif;
+  font-style: italic;
+  font-size: 0.9em;
+}
+
+/*Start of body*/
+.playersColumns {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  padding-left: 150px;
+  padding-right: 150px;
+  padding-top: 25px;
+  overflow-y: scroll;
+}
+
+.playersBody {
+  overflow: auto;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.playerButton:hover {
+  background-color: #FFF;
+}
+
+.trendHeaderUp {
+width: 250px;
+height: 55px;
+vertical-align: middle;
+background-color: rgba(17, 17, 17, 0.5);
+color: #00ab9e;
+padding-left: 73px;
+padding-right: 63px;
+font-family: 'Roboto', sans-serif;
+font-weight: bold;
+font-size: 1.1em;
+border-radius: 5px;
+box-shadow: 43x 3px 2px #333;
+white-space: nowrap;
+}
+
+.trendHeaderDown {
+  width: 250px;
+  height: 55px;
+  background-color: rgba(17, 17, 17, 0.5);
+  color: #fb655a;
+  padding-left: 55px;
+  padding-right: 53px;
   font-family: 'Roboto', sans-serif;
-  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 1.1em;
+  border-radius: 5px;
+  box-shadow: 43x 3px 2px #333;
+  white-space: nowrap;
 }
