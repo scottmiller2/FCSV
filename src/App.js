@@ -87,6 +87,8 @@ class App extends Component {
         <div className="playersFooter">
           <PlayerForm addPlayer={this.addPlayer}/>
         </div>
+        <span className="weekHeading">Week 8 — Thursday Night Football — Seahawks vs. Cardinals</span>
+        <span className="byes">BYES: Arizona, Green Bay, Jacksonville, Los Angeles Rams, New York Giants, Tennessee</span>
         <div className="playersColumns">
         <div className="playersBody">
           <span className="trendHeaderUp">TRENDING UP</span>

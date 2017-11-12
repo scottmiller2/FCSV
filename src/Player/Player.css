@@ -10,6 +10,13 @@
     border-radius: 5px;
     box-shadow: 43x 3px 2px #333;
   }
+  .up {
+    background-color: #00ab9e;
+  }
+
+  .down {
+    background-color: #fb655a;
+  }
   
   @keyframes fadeIn { from { opacity:0; } to { opacity:0.8; } }
   @keyframes fadeOut { from { opactiy:0.8; } to { opacity:0; } }
@@ -20,7 +27,7 @@
       opacity:0;
       animation:fadeIn ease-in 1;
       animation-fill-mode:forwards;
-      animation-duration: 0.1s;
+      animation-duration: 0.7s;
   }
   
   .playerContent{

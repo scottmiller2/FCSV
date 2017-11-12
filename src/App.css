@@ -6,7 +6,7 @@ body {
   min-height: 100%;
   background:
     linear-gradient(-45deg, rgba(0,0,0,0.3), rgba(0, 40, 105, 0.8)),
-    url('./Static/img/3.jpg');
+    url('./Static/img/browns.jpg');
     background-attachment: fixed;
     background-size: cover;
 }
@@ -68,6 +68,40 @@ body {
   background-color: rgba(0, 0, 0, 0, 0.5);
 }
 
+/*Displays season week #*/
+.weekHeading{
+  margin: auto;
+  margin-top: 5px;
+  padding-top: 6px;
+  height: 55px;
+  width: 570px;
+  text-align: center;
+  background-color: rgba(17, 17, 17, 0.5);
+  color: rgba(238, 238, 221, 0.7);
+  box-shadow: 43x 3px 2px #333;
+  white-space: nowrap;
+  border-radius: 5px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.0em;
+}
+
+.byes {
+  margin: auto;
+  margin-top: 7px;
+  padding-top: 7px;
+  padding-bottom: 5px;
+  height: 55px;
+  width: 570px;
+  text-align: center;
+  background-color: rgba(17, 17, 17, 0.5);
+  color: rgba(238, 238, 221, 0.6);
+  box-shadow: 43x 3px 2px #333;
+  border-radius: 5px;
+  font-family: 'Lato', sans-serif;
+  font-style: italic;
+  font-size: 0.9em;
+}
+
 /*Start of body*/
 .playersColumns {
   display: flex;
@@ -75,7 +109,7 @@ body {
   justify-content: space-evenly;
   padding-left: 150px;
   padding-right: 150px;
-  padding-top: 30px;
+  padding-top: 25px;
   overflow-y: scroll;
 }
 
@@ -83,7 +117,6 @@ body {
   overflow: auto;
   flex-direction: column;
   justify-content: center;
-  overflow-y: hidden;
 }
 
 .playerButton:hover {
@@ -93,11 +126,13 @@ body {
 .trendHeaderUp {
 width: 250px;
 height: 55px;
-background-color: rgba(238, 238, 221, 0.7);
-color: #222;
-padding-left: 70px;
+vertical-align: middle;
+background-color: rgba(17, 17, 17, 0.5);
+color: #00ab9e;
+padding-left: 73px;
 padding-right: 63px;
-font-family: 'Lato', sans-serif;
+font-family: 'Roboto', sans-serif;
+font-weight: bold;
 font-size: 1.1em;
 border-radius: 5px;
 box-shadow: 43x 3px 2px #333;
@@ -107,11 +142,12 @@ white-space: nowrap;
 .trendHeaderDown {
   width: 250px;
   height: 55px;
-  background-color: rgba(238, 238, 221, 0.7);
-  color: #222;
-  padding-left: 51px;
-  padding-right: 48px;
-  font-family: 'Lato', sans-serif;
+  background-color: rgba(17, 17, 17, 0.5);
+  color: #fb655a;
+  padding-left: 55px;
+  padding-right: 53px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
   font-size: 1.1em;
   border-radius: 5px;
   box-shadow: 43x 3px 2px #333;
