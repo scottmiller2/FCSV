@@ -26,26 +26,20 @@ body {
 
 /*Fantsy and image*/
 .playersHeader {
-  display: flex;
-  flex: 1 1 5%;
+  display: block;
   min-height: 2.5em;
   max-height: 2em;
   font-size: 3.3em;
   color: rgba(0,0,0,0.9);
   font-family: 'Roboto', sans-serif;
   text-align: center;
-  align-content: center;
-  padding: 30px 0px 35px 0px;
-  margin-bottom: 6px;
+  padding: 30px 0px 35px 155px;
   background-color: rgba(0,0,0,0.2);
-  display: block;
   text-transform: uppercase;
 }
 
 /*Crowdsourced player trends*/
 .subheading {
-  display: flex;
-  flex: 1 1 5%;
   min-height: .3em;
   max-height: 1.0em;
   font-size: .4em;
@@ -54,9 +48,67 @@ body {
   font-family: 'Roboto', sans-serif;
   text-align: center;
   align-content: center;
-  display: block;
   text-transform: uppercase;
   text-decoration: overline;
+  white-space: nowrap;
+}
+
+.user-profile, .user-profile-text{
+  float: right;
+  border-radius: 15px;
+  cursor: pointer;
+  margin: 2px 5px 0 0;
+  font-family: 'Roboto', sans-serif;
+  font-size: 8pt;
+}
+
+.authArea{
+  float: right;
+  margin-right: 15px;
+}
+
+button{
+  border: none;
+  outline:none;
+}
+
+.loginSignUpIn {
+  height: 45px;
+  width: 100px;
+  padding: 0 4px 0 0;
+  font-family: 'Roboto', sans-serif;
+  font-size: 11pt;
+  white-space: nowrap;
+  border-radius: 5px;
+  background-color: #0284A8;
+  text-align: center;
+  color: white;
+}
+
+.loginSignUpOut {
+  height: 45px;
+  width: 100px;
+  padding: 0 4px 0 0;
+  font-family: 'Roboto', sans-serif;
+  font-size: 11pt;
+  white-space: nowrap;
+  border-radius: 5px;
+  background-color: #fb655a;
+  text-align: center;
+  color: black;
+}
+
+
+.loginSignUpIn:hover {
+  background-color: #fb655a;
+  color: black;
+
+}
+
+.loginSignUpOut:hover {
+  background-color: #0284A8;
+  color: white;
+  
 }
 
 /*Search area*/
