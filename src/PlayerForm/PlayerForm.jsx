@@ -22,7 +22,7 @@ handleUserInput(e){
 writePlayer(){
     // call a method that sets the playerContent for a player to
     // the value of the input
-    if (/^[a-zA-Z]+$/.test(this.state.newPlayerContent)) {
+    if (/^[a-zA-Z\s]*$/.test(this.state.newPlayerContent)) {
         this.props.addPlayer(this.state.newPlayerContent);
         console.log("Verified all letters")
         // Set newPlayerContent back to an empty string. 

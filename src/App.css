@@ -53,13 +53,17 @@ body {
   white-space: nowrap;
 }
 
-.user-profile, .user-profile-text{
+.user-profile {
   float: right;
   border-radius: 15px;
   cursor: pointer;
   margin: 2px 5px 0 0;
   font-family: 'Roboto', sans-serif;
   font-size: 8pt;
+  opacity: 0.8;
+}
+.user-profile:hover{
+  opacity: 1.0;
 }
 
 .authArea{
@@ -72,23 +76,10 @@ button{
   outline:none;
 }
 
-.loginSignUpIn {
-  height: 45px;
-  width: 100px;
-  padding: 0 4px 0 0;
-  font-family: 'Roboto', sans-serif;
-  font-size: 11pt;
-  white-space: nowrap;
-  border-radius: 5px;
-  background-color: #0284A8;
-  text-align: center;
-  color: white;
-}
-
 .loginSignUpOut {
   height: 45px;
-  width: 100px;
-  padding: 0 4px 0 0;
+  width: 70px;
+  padding: 0 2px 0 0;
   font-family: 'Roboto', sans-serif;
   font-size: 11pt;
   white-space: nowrap;
@@ -97,18 +88,15 @@ button{
   text-align: center;
   color: black;
 }
-
 
 .loginSignUpIn:hover {
   background-color: #fb655a;
   color: black;
-
 }
 
 .loginSignUpOut:hover {
   background-color: #0284A8;
   color: white;
-  
 }
 
 /*Search area*/
@@ -118,6 +106,17 @@ button{
   justify-content: center;
   flex: 1 0 10%;
   background-color: rgba(0, 0, 0, 0, 0.5);
+}
+
+.closeTab{
+  float: right;
+  margin-right: 5px;
+  height: 10px;
+  width: 10px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.0em;
+  font-style: bold;
+  cursor: pointer
 }
 
 /*Displays season week #*/
@@ -149,9 +148,8 @@ button{
   color: rgba(238, 238, 221, 0.6);
   box-shadow: 43x 3px 2px #333;
   border-radius: 5px;
-  font-family: 'Lato', sans-serif;
-  font-style: italic;
-  font-size: 0.9em;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.0em;
 }
 
 /*Start of body*/

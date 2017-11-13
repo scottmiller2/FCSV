@@ -25,7 +25,9 @@ class App extends Component {
 
     this.state = {
       players: [],
-      user: null //sets user's inital load-in to unauthenticated
+      user: null, //sets user's inital load-in to unauthenticated
+      weekTabVisible: null,
+      byeTabVisible: null
     }
 
     this.players = [];
@@ -69,17 +71,42 @@ class App extends Component {
     }
   }
 
+  byeTab(){
+    this.setState({byeTabVisible: !this.state.byeTabVisible})
+  }
+
+  closeByeTab() {
+    var x = document.getElementById("byes");
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
+    }
+  }
+
+  closeWeekTab() {
+    var x = this.refs.weekHeading;
+    if (x.display === "none") {
+        x.display = "block";
+    } else {
+        x.style.display = "none";
+    }
+}
+
   //Trending influence
   downvotePlayer(playerId){
+    {
+    this.state.user ?
     this.database.child(playerId).transaction(function (player) {
         if (player) {
             player.votes--
         }
         return player;
-    });
+    })
+    :
+    console.log("Must log in to vote")
+    }
   }
-
-
 
   userLogOut() {
     auth.signOut()
@@ -101,18 +128,29 @@ class App extends Component {
   }
 
   upvotePlayer(playerId){
-    this.database.child(playerId).transaction(function (player) {
-      if (player) {
-          player.votes++
-      }
-      return player;
-    });
+    {
+    this.state.user ?
+      this.database.child(playerId).transaction(function (player) {
+       if (player) {
+            player.votes++
+        }
+       return player;
+    })
+    :
+    console.log("Must be logged in to vote.")
+    }
+  }
+
+  weekTab(){
+    this.setState({weekTabVisible: !this.state.weekTabVisible})
   }
 
   render() {
     const players = this.state.players;
     const orderedPlayersUp = _.orderBy(players, ['votes'], ['desc']);
     const orderedPlayersDown = _.orderBy(players, ['votes']);
+    let hideBye = this.state.byeTabVisible ? "none" : "block"
+    let hideWeek = this.state.weekTabVisible ? "none" : "block"
     return (
       <div className="playersWrapper">
         <div className="playersHeader">
@@ -126,7 +164,7 @@ class App extends Component {
         }
         {
         this.state.user ?
-        console.log("You must be logged in to contribute.")
+        console.log("Checked logged in status")
         :
         <span className="authArea"><button className="loginSignUpOut" onClick={this.userLogIn}>Sign In</button></span>
         }
@@ -139,8 +177,9 @@ class App extends Component {
         <div className="playersFooter">
           <PlayerForm addPlayer={this.addPlayer}/>
         </div>
-       <span className="weekHeading">Week 8 — Thursday Night Football — Seahawks vs. Cardinals</span>
-        <span className="byes">BYES: Arizona, Green Bay, Jacksonville, Los Angeles Rams, New York Giants, Tennessee</span>
+       
+       <span style={{display: hideWeek}} className="weekHeading">Week 11 — Thursday Night Football — Seahawks vs. Cardinals <a style={{display: hideWeek}} className="closeTab" onClick={this.weekTab.bind(this)}>x</a></span>
+        <span style={{display: hideBye}} className="byes">Byes — Carolina, Indianapolis, New York Jets, San Francisco <a style={{display: hideBye}} className="closeTab" onClick={this.byeTab.bind(this)}>x</a></span>
         <div className="playersColumns">
         <div className="playersBody">
           <span className="trendHeaderUp">TRENDING UP</span>
