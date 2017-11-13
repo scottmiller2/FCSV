@@ -22,12 +22,18 @@ handleUserInput(e){
 writePlayer(){
     // call a method that sets the playerContent for a player to
     // the value of the input
-    this.props.addPlayer(this.state.newPlayerContent);
-    
-    // Set newPlayerContent back to an empty string. 
-    this.setState({
-        newPlayerContent: '',
-    })
+    if (/^[a-zA-Z\s]*$/.test(this.state.newPlayerContent)) {
+        this.props.addPlayer(this.state.newPlayerContent);
+        console.log("Verified all letters")
+        // Set newPlayerContent back to an empty string. 
+        this.setState({
+            newPlayerContent: '',
+        })
+    }
+    else {
+        console.log("Non-letter character found in: " + this.state.newPlayerContent)
+    }
+
 }
 
     render(){
