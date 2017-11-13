@@ -169,10 +169,12 @@ class App extends Component {
         <span className="authArea"><button className="loginSignUpOut" onClick={this.userLogIn}>Sign In</button></span>
         }
           <div className="heading">Fantsy <img src={require('./Static/img/4.png'  ) } 
-          style={{width: 65, height: 43}} alt={"background"}
-          /> </div>
+          style={{width: 65, height: 43}} alt={"background"}/>
           <div className="subheading">Crowdsourced Player trends</div>
-        </div>
+          </div>
+          
+          </div>
+          
 
         <div className="playersFooter">
           <PlayerForm addPlayer={this.addPlayer}/>
