@@ -63,12 +63,12 @@ class App extends Component {
     });
   }
   addPlayer(player){
-    {
+    
       this.state.user ?
       this.database.push().set({ playerContent: player, votes: 0, rank: 0})
     :
       console.log("Not Logged In")
-    }
+    
   }
 
   byeTab(){
@@ -95,7 +95,7 @@ class App extends Component {
 
   //Trending influence
   downvotePlayer(playerId){
-    {
+    
     this.state.user ?
     this.database.child(playerId).transaction(function (player) {
         if (player) {
@@ -105,7 +105,7 @@ class App extends Component {
     })
     :
     console.log("Must log in to vote")
-    }
+    
   }
 
   userLogOut() {
@@ -128,7 +128,7 @@ class App extends Component {
   }
 
   upvotePlayer(playerId){
-    {
+    
     this.state.user ?
       this.database.child(playerId).transaction(function (player) {
        if (player) {
@@ -138,7 +138,7 @@ class App extends Component {
     })
     :
     console.log("Must be logged in to vote.")
-    }
+    
   }
 
   weekTab(){
@@ -157,7 +157,7 @@ class App extends Component {
         {
         this.state.user ?
         <div className='user-profile'>
-        <img className='user-profile' onClick={ this.userLogOut } src={this.state.user.photoURL} />
+        <img className='user-profile' onClick={ this.userLogOut } src={this.state.user.photoURL} alt={"userphoto"}/>
       </div>
         :
         console.log("You must be logged in to contribute.")

@@ -73,7 +73,7 @@ body {
 
 button{
   border: none;
-  outline:none;
+  outline: none;
 }
 
 .loginSignUpOut {
@@ -161,12 +161,15 @@ button{
   padding-right: 150px;
   padding-top: 25px;
   overflow-y: scroll;
+
 }
 
 .playersBody {
   overflow: auto;
   flex-direction: column;
   justify-content: center;
+  flex-wrap: wrap;
+  min-width: 255px;
 }
 
 .playerButton:hover {
