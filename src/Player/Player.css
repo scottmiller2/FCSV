@@ -93,3 +93,13 @@
   .up:active {
     color: #000;
   }
+
+@media (max-width: 600px) {
+  .player{
+    width: 200px;
+    height: 50px;
+    line-height: 13px;
+    
+  }
+  
+}

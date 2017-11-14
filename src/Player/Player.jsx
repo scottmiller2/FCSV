@@ -13,6 +13,7 @@ class Player extends Component{
 
 
     handleUpvote(id){
+        console.log("handleUpvote fired")
         this.props.upvotePlayer(id)
     }
 

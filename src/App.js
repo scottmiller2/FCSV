@@ -128,10 +128,10 @@ class App extends Component {
   }
 
   upvotePlayer(playerId){
-    
     this.state.user ?
       this.database.child(playerId).transaction(function (player) {
        if (player) {
+            console.log(player)
             player.votes++
         }
        return player;
@@ -164,7 +164,7 @@ class App extends Component {
         }
         {
         this.state.user ?
-        console.log("Checked logged in status")
+        console.log("")
         :
         <span className="authArea"><button className="loginSignUpOut" onClick={this.userLogIn}>Sign In</button></span>
         }

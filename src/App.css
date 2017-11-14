@@ -225,10 +225,21 @@ white-space: nowrap;
   .weekHeading{
     font-size: 0.7em;
     width: 350px;
+    padding: 10px 0 10px 0;
   }
   .byes{
     font-size: 0.7em;
     width: 350px;
+    padding: 8px 0 8px 0;
   }
-  
+  .trendHeaderDown{
+    width: 200px;
+    padding-left: 35px;
+    padding-right: 25px;
+  }
+  .trendHeaderUp{
+    width: 200px;
+    padding-left: 50px;
+    padding-right: 40px;
+  }
 }
