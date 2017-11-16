@@ -3,11 +3,14 @@ html {
 }
 body {
   width: 100%;
-  background: #2f5683; /* For browsers that do not support gradients */
-  background: -webkit-linear-gradient(#2f5683, #3c5e83); /* For Safari 5.1 to 6.0 */
-  background: -o-linear-gradient(#2f5683, #3c5e83); /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient(#2f5683, #3c5e83); /* For Firefox 3.6 to 15 */
-  background: linear-gradient(#2f5683, #3c5e83); /* Standard syntax */
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ebf1f6+0,3c5e83+0,d5ebfb+100 */
+background: #ebf1f6; /* Old browsers */
+background: -moz-linear-gradient(top, #3c5e83 0%, #d5ebfb 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top,#3c5e83 0%,#d5ebfb 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom,#3c5e83 0%,#d5ebfb 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3c5e83', endColorstr='#d5ebfb',GradientType=0 ); /* IE6-9 */
+background-repeat: no-repeat;
+background-attachment: fixed;
 }
 
 * {
