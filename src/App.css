@@ -120,7 +120,7 @@ button{
   display: flex;
   align-items: center;
   justify-content: center;
-  flex: 1 0 10%;
+  /*flex: 1 0 10%; here*/
   background-color: rgba(0, 0, 0, 0, 0.5);
 }
 
@@ -170,16 +170,14 @@ button{
 .playersColumns {
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
-  padding-left: 150px;
-  padding-right: 150px;
+  justify-content: center;
   padding-top: 25px;
   align-items: center;
 }
 
 .playersBody {
-  flex-direction: column;
-  justify-content: center;
+  /*flex-direction: column;
+  justify-content: center;*/
   flex-wrap: wrap;
   min-width: 255px;
 }
@@ -251,7 +249,7 @@ white-space: nowrap;
   }
   .playersColumns {
     display: flex;
-    flex: 1 0 165%;
+    /*flex: 1 0 165%;*/
     flex-direction: column;
     justify-content: space-between;
   }
@@ -275,4 +273,7 @@ white-space: nowrap;
     padding-left: 50px;
     padding-right: 40px;
   }
+}
+@media (max-height: 600px) {
+
 }
