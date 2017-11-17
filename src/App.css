@@ -164,7 +164,6 @@ button{
 }
 
 .playersBody {
-  height: auto;
   flex-wrap: wrap;
   min-width: 255px;
 }
