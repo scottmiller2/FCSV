@@ -68,16 +68,16 @@
       padding: 0px 12px;
     }
   }
-  @media (max-width: 400px) {
+  @media (max-width: 480px) {
     .playerInput {
-      width: 150px;
-      height: 40px;
+      width: 250px;
+      height: 45px;
       font-size: 0.6em;
     }
     button {
       border: 0;
-      height: 40px;
-      width: 40px;
+      height: 45px;
+      width: 45px;
       padding-right: 3px;
       padding: 0px 12px;
     }

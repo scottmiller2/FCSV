@@ -269,10 +269,13 @@ white-space: nowrap;
     padding-right: 70px;
   }
 }
-@media (max-width: 400px) {
+@media (max-width: 480px) {
 .weekHeading{
   width: 200px;
   padding: 0 0 40px 0;
+  }
+  .weekHeading{
+    font-size: 7.5pt;
   }
   .subheading{
     font-size: 10pt;
