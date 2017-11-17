@@ -95,7 +95,7 @@
     color: #000;
   }
 
-@media (max-width: 600px) {
+/*@media (max-width: 600px) {
   .player{
     width: 200px;
     height: 50px;
@@ -103,4 +103,4 @@
     font-size: 0.9em;
   }
   
-}
+}*/
