@@ -271,8 +271,8 @@ white-space: nowrap;
 }
 @media (max-width: 480px) {
 .weekHeading{
-  width: 200px;
-  padding: 0 0 40px 0;
+  width: 275px;
+  padding: 10px 0 20px 0;
   }
   .weekHeading{
     font-size: 7.5pt;
