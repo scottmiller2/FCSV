@@ -28,7 +28,7 @@ background-attachment: fixed;
 
 /* Login and user image top bar */
 .userBar{
-  height: 55px;
+  height: 65px;
   background-color: rgba(0,0,0,0.6);
 }
 
@@ -95,14 +95,15 @@ button{
 .loginSignUpOut {
   height: 45px;
   width: 70px;
+  margin-top: 3px;
   padding: 0 2px 0 0;
   font-family: 'Roboto', sans-serif;
+  color: rgba(255, 255, 255, 0.9);
   font-size: 11pt;
   white-space: nowrap;
   border-radius: 5px;
   background-color: #00ab9e;
   text-align: center;
-  color: black;
 }
 
 .loginSignUpIn:hover {
@@ -163,8 +164,7 @@ button{
 }
 
 .playersBody {
-  /*flex-direction: column;
-  justify-content: center;*/
+  height: auto;
   flex-wrap: wrap;
   min-width: 255px;
 }
@@ -214,20 +214,25 @@ white-space: nowrap;
     white-space: nowrap;
   }
   .searchBar{
-    margin-top: 30px;
+    margin-top: 33px;
   }
   .userBar{
-    height: 40px;
+    height: 55px;
   }
   .profile-image{
-    height: 28px;
-    width: 28px;
+    height: 40px;
+    width: 40px;
+    border-right: 5px;
+    border-style: solid;
+    border-color: green;
     padding: 0 0 2px 0;
   }
   .loginSignUpOut{
-    height: 25px;
-    width: 35px;
-    font-size: 6pt;
+    height: 40px;
+    width: 55px;
+    font-size: 9pt;
+    border-color: rgb(0, 110, 255);
+    color: rgba(255, 255, 255, 0.9);
     margin: 2px 0 0 0;
   }
   .subheading{
@@ -239,11 +244,9 @@ white-space: nowrap;
   }
   .playersColumns {
     display: flex;
-    /*flex: 1 0 165%;*/
-    flex-direction: column;
-    justify-content: space-between;
-    padding-left: 52px;
     flex-wrap: wrap;
+    align-content: space-between;
+    padding-left: 54px;
   }
   .weekHeading{
     font-size: 0.7em;
