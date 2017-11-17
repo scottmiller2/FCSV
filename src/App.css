@@ -242,7 +242,8 @@ white-space: nowrap;
     /*flex: 1 0 165%;*/
     flex-direction: column;
     justify-content: space-between;
-    padding-left: 54px;
+    padding-left: 52px;
+    flex-wrap: wrap;
   }
   .weekHeading{
     font-size: 0.7em;
