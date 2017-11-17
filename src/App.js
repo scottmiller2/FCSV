@@ -181,7 +181,7 @@ class App extends Component {
           <PlayerForm addPlayer={this.addPlayer} />
         </div>
 
-        <span style={{ display: hideWeek }} className="weekHeading"><a style={{ display: hideWeek }} className="closeTab" onClick={this.weekTab.bind(this)}>x</a><u>Week 11</u> — Thursday Night Football — Titans vs. Steelers <br/> <u>Byes</u> — Carolina, Indianapolis, New York Jets, San Francisco </span>
+        <span style={{ display: hideWeek }} className="weekHeading"><a style={{ display: hideWeek }} className="closeTab" onClick={this.weekTab.bind(this)}>x</a><br/><u>Week 11</u> — Thursday Night Football — Titans vs. Steelers <br/> <u>Byes</u> — Carolina, Indianapolis, New York Jets, San Francisco </span>
         <div className="playersColumns">
           <div className="playersBody">
             <span className="trendHeaderUp">TRENDING UP</span>
