@@ -8,7 +8,6 @@
   
   .playerInput {
     width: 450px;
-    min-width: 300px;
     font-size: 1.3em;
     padding-left: 20px;
     height: 55px;
@@ -69,3 +68,18 @@
       padding: 0px 12px;
     }
   }
+  @media (max-width: 400px) {
+    .playerInput {
+      width: 150px;
+      height: 40px;
+      font-size: 0.6em;
+    }
+    button {
+      border: 0;
+      height: 40px;
+      width: 40px;
+      padding-right: 3px;
+      padding: 0px 12px;
+    }
+  }
+  

@@ -149,7 +149,6 @@ class App extends Component {
     const players = this.state.players;
     const orderedPlayersUp = _.orderBy(players, ['votes'], ['desc']);
     const orderedPlayersDown = _.orderBy(players, ['votes']);
-    let hideBye = this.state.byeTabVisible ? "none" : "block"
     let hideWeek = this.state.weekTabVisible ? "none" : "block"
     return (
       <div className="playersWrapper">
@@ -169,7 +168,7 @@ class App extends Component {
             <div className="authArea"><button className="loginSignUpOut" onClick={this.userLogIn}>Sign In</button></div>
         }
         </div>
-        <div className="playersHeader">
+        <div className="titleBar">
           <div className="heading">Fantsy <img src={require('./Static/img/4.png')}
              className="fantsy-image" alt={"background"} />
             <div className="subheading">Crowdsourced Player trends</div>
@@ -178,12 +177,11 @@ class App extends Component {
         </div>
 
 
-        <div className="playersFooter">
+        <div className="searchBar">
           <PlayerForm addPlayer={this.addPlayer} />
         </div>
 
-        <span style={{ display: hideWeek }} className="weekHeading">Week 11 — Thursday Night Football — Seahawks vs. Cardinals <a style={{ display: hideWeek }} className="closeTab" onClick={this.weekTab.bind(this)}>x</a></span>
-        <span style={{ display: hideBye }} className="byes">Byes — Carolina, Indianapolis, New York Jets, San Francisco <a style={{ display: hideBye }} className="closeTab" onClick={this.byeTab.bind(this)}>x</a></span>
+        <span style={{ display: hideWeek }} className="weekHeading"><a style={{ display: hideWeek }} className="closeTab" onClick={this.weekTab.bind(this)}>x</a><u>Week 11</u> — Thursday Night Football — Titans vs. Steelers <br/> <u>Byes</u> — Carolina, Indianapolis, New York Jets, San Francisco </span>
         <div className="playersColumns">
           <div className="playersBody">
             <span className="trendHeaderUp">TRENDING UP</span>
