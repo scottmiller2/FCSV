@@ -10,6 +10,7 @@ firebase.initializeApp(DB_CONFIG)
 
 const provider = new firebase.auth.GoogleAuthProvider();
 const auth = firebase.auth();
+var uid;
 
 class App extends Component {
 
@@ -22,26 +23,26 @@ class App extends Component {
     this.database = firebase.database().ref().child('players');
     this.userLogIn = this.userLogIn.bind(this);
     this.userLogOut = this.userLogOut.bind(this);
-
+    
     this.state = {
       players: [],
-      user: null, //sets user's inital load-in to unauthenticated
+      user: null,
       weekTabVisible: null,
       byeTabVisible: null
     }
-
     this.players = [];
   }
+  
 
   componentWillMount() {
+    
     const previousPlayers = this.state.players;
 
     this.database.on('child_added', snap => {
       previousPlayers.push({
         id: snap.key,
         playerContent: snap.val().playerContent,
-        votes: snap.val().votes,
-        rank: snap.val().rank,
+        votes: snap.val().votes
       })
 
 
@@ -59,16 +60,16 @@ class App extends Component {
     auth.onAuthStateChanged((user) => {
       if (user) {
         this.setState({ user });
+        uid = user.uid;
       }
     });
   }
   addPlayer(player) {
 
     this.state.user ?
-      this.database.push().set({ playerContent: player, votes: 0, rank: 0 })
+      this.database.push().set({ playerContent: player, votes: 0})
       :
       console.log("Not Logged In")
-
   }
 
   byeTab() {
@@ -93,19 +94,16 @@ class App extends Component {
     }
   }
 
-  //Trending influence
+  //Trending influence — UID of the logged in user is put into the player's voter child
+  //with a -1 to denote a downvote
   downvotePlayer(playerId) {
-
-    this.state.user ?
-      this.database.child(playerId).transaction(function (player) {
-        if (player) {
-          player.votes--
-        }
-        return player;
-      })
-      :
-      console.log("Must log in to vote")
-
+    if(this.state.user) {
+      let ref = firebase.database().ref('players/' + playerId + '/voters');
+      ref.child(uid).set(-1);
+    }
+  else {
+      console.log("Must be logged in to vote.")
+    }
   }
 
   userLogOut() {
@@ -122,23 +120,23 @@ class App extends Component {
       .then((result) => {
         const user = result.user;
         this.setState({
-          user
+          user,
+          uid
         });
       });
+      console.log("UID: " + uid)
   }
 
+  //Trending influence — UID of the logged in user is put into the player's voter child
+  //with a 1 to denote an upvote
   upvotePlayer(playerId) {
-    this.state.user ?
-      this.database.child(playerId).transaction(function (player) {
-        if (player) {
-          console.log(player)
-          player.votes++
-        }
-        return player;
-      })
-      :
-      console.log("Must be logged in to vote.")
-
+    if(this.state.user) {
+        let ref = firebase.database().ref('players/' + playerId + '/voters');
+        ref.child(uid).set(1);
+      }
+    else {
+        console.log("Must be logged in to vote.")
+      }
   }
 
   weekTab() {
@@ -178,7 +176,10 @@ class App extends Component {
 
 
         <div className="searchBar">
-          <PlayerForm addPlayer={this.addPlayer} />
+          <PlayerForm addPlayer={this.addPlayer}
+                      upvotePlayer={this.upvotePlayer}
+                      downvotePlayer={this.downvotePlayer} />
+          
         </div>
 
         <span style={{ display: hideWeek }} className="weekHeading"><a style={{ display: hideWeek }} className="closeTab" onClick={this.weekTab.bind(this)}>x</a><br/><u>Week 11</u> — Thursday Night Football — Titans vs. Steelers <br/> <u>Byes</u> — Carolina, Indianapolis, New York Jets, San Francisco </span>

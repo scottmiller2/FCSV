@@ -45,9 +45,11 @@ handleUserInput(e){
 }
 
 writePlayerUp(newPlayerContent){
-    if (/^[a-zA-Z\s]*$/.test(this.state.newPlayerContent)) {
+    if (/^[a-zA-Z\s]*$/.test(this.state.newPlayerContent) && this.state.newPlayerContent !== "") {
         this.checkIfUserExists(this.state.newPlayerContent);
         
+        //Cycle through the players in the database to see if the entered player string is already present. If the player
+        //is NOT found, an upvote is cast.
         if(this.state.duplicate !== true){
         this.props.addPlayer(this.state.newPlayerContent);
         
@@ -58,8 +60,8 @@ writePlayerUp(newPlayerContent){
             const key = child.key
             playersRef.child('players/'+key).update({
                 votes: data.votes + 1,
-                
                 })
+            this.props.upvotePlayer(key);
             })
         });
         
@@ -68,7 +70,7 @@ writePlayerUp(newPlayerContent){
             })
         }
 
-        //Add below code here to manipulate vote count of newly added player (first vote)
+        //Legal string enetered and player has been found in the database. An upvote is cast.
         else{
             var playersRef = firebase.database().ref();
             playersRef.child('players').orderByChild("playerContent").equalTo(this.state.newPlayerContent).once("value",snapshot => {
@@ -77,9 +79,11 @@ writePlayerUp(newPlayerContent){
                 const key = child.key
                 playersRef.child('players/'+key).update({
                     votes: data.votes + 1,
-                    
                 })
+
+                this.props.upvotePlayer(key);
             })
+         
          });
          this.setState({
             newPlayerContent: '',
@@ -95,12 +99,15 @@ writePlayerUp(newPlayerContent){
 }
 
 writePlayerDown(newPlayerContent){
-    if (/^[a-zA-Z\s]*$/.test(this.state.newPlayerContent)) {
+    if (/^[a-zA-Z\s]*$/.test(this.state.newPlayerContent) && this.state.newPlayerContent !== "") {
         this.checkIfUserExists(this.state.newPlayerContent);
         
+        //Cycle through the players in the database to see if the entered player string is already present. If the player
+        //is NOT found, a downvote is cast.
         if(this.state.duplicate !== true){
         this.props.addPlayer(this.state.newPlayerContent);
         
+        //Cycling through players
         var playersRef = firebase.database().ref();
         playersRef.child('players').orderByChild("playerContent").equalTo(this.state.newPlayerContent).once("value",snapshot => {
         snapshot.forEach(child => {
@@ -108,8 +115,8 @@ writePlayerDown(newPlayerContent){
             const key = child.key
             playersRef.child('players/'+key).update({
                 votes: data.votes - 1,
-                
                 })
+            this.props.downvotePlayer(key)
             })
         });
         
@@ -117,6 +124,7 @@ writePlayerDown(newPlayerContent){
             newPlayerContent: '',
             })
         }
+        //Legal player string is entered and the player has been found in the database. A vote is cast.
         else{
             var playersRef = firebase.database().ref();
             playersRef.child('players').orderByChild("playerContent").equalTo(this.state.newPlayerContent).once("value",snapshot => {
@@ -125,8 +133,8 @@ writePlayerDown(newPlayerContent){
                 const key = child.key
                 playersRef.child('players/'+key).update({
                     votes: data.votes - 1,
-                    
                 })
+                this.props.downvotePlayer(key)
             })
          });
          this.setState({
