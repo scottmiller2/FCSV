@@ -1,14 +1,13 @@
 .searchArea {
     display: flex;
     box-sizing: border-box;
+    min-height: 100vh;
     align-items: center;
     justify-content: center;
-    min-height: 100vh;
   }
   
   .playerInput {
     width: 450px;
-    min-width: 300px;
     font-size: 1.3em;
     padding-left: 20px;
     height: 55px;
@@ -29,7 +28,7 @@
   button {
     border: 0;
     height: 55px;
-    padding: 8px 24px;
+    padding: 0px 24px;
     font-family: "Droid Sans", sans-serif;
     color: #fff;
     transition: 0.2s ease-out;
@@ -53,3 +52,34 @@
   .downvoteButton:hover {
     background-color: #ff5043;
   }
+
+
+  @media (max-width: 600px) {
+    .playerInput {
+      width: 340px;
+      height: 50px;
+      font-size: 0.9em;
+    }
+    button {
+      border: 0;
+      height: 50px;
+      width: 50px;
+      padding-right: 3px;
+      padding: 0px 12px;
+    }
+  }
+  @media (max-width: 480px) {
+    .playerInput {
+      width: 250px;
+      height: 45px;
+      font-size: 0.6em;
+    }
+    button {
+      border: 0;
+      height: 45px;
+      width: 45px;
+      padding-right: 3px;
+      padding: 0px 12px;
+    }
+  }
+  

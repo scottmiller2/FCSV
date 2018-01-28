@@ -10,10 +10,11 @@ firebase.initializeApp(DB_CONFIG)
 
 const provider = new firebase.auth.GoogleAuthProvider();
 const auth = firebase.auth();
+var uid;
 
 class App extends Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
 
     this.addPlayer = this.addPlayer.bind(this);
@@ -22,203 +23,205 @@ class App extends Component {
     this.database = firebase.database().ref().child('players');
     this.userLogIn = this.userLogIn.bind(this);
     this.userLogOut = this.userLogOut.bind(this);
-
+    
     this.state = {
       players: [],
-      user: null, //sets user's inital load-in to unauthenticated
+      user: null,
       weekTabVisible: null,
       byeTabVisible: null
     }
-
     this.players = [];
   }
+  
 
-  componentWillMount(){
+  componentWillMount() {
+    
     const previousPlayers = this.state.players;
 
     this.database.on('child_added', snap => {
       previousPlayers.push({
         id: snap.key,
         playerContent: snap.val().playerContent,
-        votes: snap.val().votes,
-        rank: snap.val().rank,
+        votes: snap.val().votes
       })
-   
-    
-    this.database.on('child_changed', function(snapshot) {
-      var name = snapshot.val();
-      console.log("Player: " + name.playerContent + " has  " + name.votes + " votes.")
-    })
 
-    this.setState({
-      players: previousPlayers
-      }); 
-  })
-}
+
+      this.database.on('child_changed', function (snapshot) {
+        var name = snapshot.val();
+        console.log("Player: " + name.playerContent + " has  " + name.votes + " votes.")
+      })
+
+      this.setState({
+        players: previousPlayers
+      });
+    })
+  }
   componentDidMount() {
-  auth.onAuthStateChanged((user) => {
-    if (user) {
-      this.setState({ user });
-      } 
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({ user });
+        uid = user.uid;
+      }
     });
   }
-  addPlayer(player){
-    
-      this.state.user ?
-      this.database.push().set({ playerContent: player, votes: 0, rank: 0})
-    :
+  addPlayer(player) {
+
+    this.state.user ?
+      this.database.push().set({ playerContent: player, votes: 0})
+      :
       console.log("Not Logged In")
-    
   }
 
-  byeTab(){
-    this.setState({byeTabVisible: !this.state.byeTabVisible})
+  byeTab() {
+    this.setState({ byeTabVisible: !this.state.byeTabVisible })
   }
 
   closeByeTab() {
     var x = document.getElementById("byes");
     if (x.style.display === "none") {
-        x.style.display = "block";
+      x.style.display = "block";
     } else {
-        x.style.display = "none";
+      x.style.display = "none";
     }
   }
 
   closeWeekTab() {
     var x = this.refs.weekHeading;
     if (x.display === "none") {
-        x.display = "block";
+      x.display = "block";
     } else {
-        x.style.display = "none";
+      x.style.display = "none";
     }
-}
+  }
 
-  //Trending influence
-  downvotePlayer(playerId){
-    
-    this.state.user ?
-    this.database.child(playerId).transaction(function (player) {
-        if (player) {
-            player.votes--
-        }
-        return player;
-    })
-    :
-    console.log("Must log in to vote")
-    
+  //Trending influence — UID of the logged in user is put into the player's voter child
+  //with a -1 to denote a downvote
+  downvotePlayer(playerId) {
+    if(this.state.user) {
+      let ref = firebase.database().ref('players/' + playerId + '/voters');
+      ref.child(uid).set(-1);
+    }
+  else {
+      console.log("Must be logged in to vote.")
+    }
   }
 
   userLogOut() {
     auth.signOut()
-    .then(() => {
-      this.setState({
-        user: null
+      .then(() => {
+        this.setState({
+          user: null
+        });
       });
-    });
   }
 
   userLogIn() {
-    auth.signInWithPopup(provider) 
+    auth.signInWithPopup(provider)
       .then((result) => {
-       const user = result.user;
-       this.setState({
-        user
+        const user = result.user;
+        this.setState({
+          user,
+          uid
+        });
       });
-    });
+      console.log("UID: " + uid)
   }
 
-  upvotePlayer(playerId){
-    
-    this.state.user ?
-      this.database.child(playerId).transaction(function (player) {
-       if (player) {
-            player.votes++
-        }
-       return player;
-    })
-    :
-    console.log("Must be logged in to vote.")
-    
+  //Trending influence — UID of the logged in user is put into the player's voter child
+  //with a 1 to denote an upvote
+  upvotePlayer(playerId) {
+    if(this.state.user) {
+        let ref = firebase.database().ref('players/' + playerId + '/voters');
+        ref.child(uid).set(1);
+      }
+    else {
+        console.log("Must be logged in to vote.")
+      }
   }
 
-  weekTab(){
-    this.setState({weekTabVisible: !this.state.weekTabVisible})
+  weekTab() {
+    this.setState({ weekTabVisible: !this.state.weekTabVisible })
   }
 
   render() {
     const players = this.state.players;
     const orderedPlayersUp = _.orderBy(players, ['votes'], ['desc']);
     const orderedPlayersDown = _.orderBy(players, ['votes']);
-    let hideBye = this.state.byeTabVisible ? "none" : "block"
     let hideWeek = this.state.weekTabVisible ? "none" : "block"
     return (
       <div className="playersWrapper">
-        <div className="playersHeader">
+        <div className="userBar">
         {
-        this.state.user ?
-        <div className='user-profile'>
-        <img className='user-profile' onClick={ this.userLogOut } src={this.state.user.photoURL} alt={"userphoto"}/>
-      </div>
-        :
-        console.log("You must be logged in to contribute.")
+          this.state.user ?
+            <div className='user-profile'>
+              <img className='profile-image' onClick={this.userLogOut} src={this.state.user.photoURL} alt={"userphoto"} />
+            </div>
+            :
+            console.log("You must be logged in to contribute.")
         }
         {
-        this.state.user ?
-        console.log("Checked logged in status")
-        :
-        <span className="authArea"><button className="loginSignUpOut" onClick={this.userLogIn}>Sign In</button></span>
+          this.state.user ?
+            console.log("")
+            :
+            <div className="authArea"><button className="loginSignUpOut" onClick={this.userLogIn}>Sign In</button></div>
         }
-          <div className="heading">Fantsy <img src={require('./Static/img/4.png'  ) } 
-          style={{width: 65, height: 43}} alt={"background"}
-          /> </div>
-          <div className="subheading">Crowdsourced Player trends</div>
+        </div>
+        <div className="titleBar">
+          <div className="heading">Fantsy <img src={require('./Static/img/4.png')}
+             className="fantsy-image" alt={"background"} />
+            <div className="subheading">Crowdsourced Player trends</div>
+          </div>
+
         </div>
 
-        <div className="playersFooter">
-          <PlayerForm addPlayer={this.addPlayer}/>
+
+        <div className="searchBar">
+          <PlayerForm addPlayer={this.addPlayer}
+                      upvotePlayer={this.upvotePlayer}
+                      downvotePlayer={this.downvotePlayer} />
+          
         </div>
-       
-       <span style={{display: hideWeek}} className="weekHeading">Week 11 — Thursday Night Football — Seahawks vs. Cardinals <a style={{display: hideWeek}} className="closeTab" onClick={this.weekTab.bind(this)}>x</a></span>
-        <span style={{display: hideBye}} className="byes">Byes — Carolina, Indianapolis, New York Jets, San Francisco <a style={{display: hideBye}} className="closeTab" onClick={this.byeTab.bind(this)}>x</a></span>
+
+        <span style={{ display: hideWeek }} className="weekHeading"><a style={{ display: hideWeek }} className="closeTab" onClick={this.weekTab.bind(this)}>x</a><br/><u>Week 11</u> — Thursday Night Football — Titans vs. Steelers <br/> <u>Byes</u> — Carolina, Indianapolis, New York Jets, San Francisco </span>
         <div className="playersColumns">
-        <div className="playersBody">
-          <span className="trendHeaderUp">TRENDING UP</span>
-          {
-            orderedPlayersUp.map((player) => {
-              return (
-            <Player 
-            playerContent={player.playerContent}
-            playerId={player.id}
-            key={player.id}
-            upvotePlayer={this.upvotePlayer}
-            downvotePlayer={this.downvotePlayer}
-            userLogIn = {this.userLogIn}
-            userLogOut = {this.userLogOut}
-            />
-              )
-            })
-          }
+          <div className="playersBody">
+            <span className="trendHeaderUp">TRENDING UP</span>
+            {
+              orderedPlayersUp.map((player) => {
+                return (
+                  <Player
+                    playerContent={player.playerContent}
+                    playerId={player.id}
+                    key={player.id}
+                    upvotePlayer={this.upvotePlayer}
+                    downvotePlayer={this.downvotePlayer}
+                    userLogIn={this.userLogIn}
+                    userLogOut={this.userLogOut}
+                  />
+                )
+              })
+            }
+          </div>
+          <div className="playersBody">
+            <span className="trendHeaderDown">TRENDING DOWN</span>
+            {
+              orderedPlayersDown.map((player) => {
+                return (
+                  <Player
+                    playerContent={player.playerContent}
+                    playerId={player.id}
+                    key={player.id}
+                    upvotePlayer={this.upvotePlayer}
+                    downvotePlayer={this.downvotePlayer}
+                    userLogIn={this.userLogIn}
+                    userLogOut={this.userLogOut}
+                  />
+                )
+              })
+            }
+          </div>
         </div>
-        <div className="playersBody">
-        <span className="trendHeaderDown">TRENDING DOWN</span>
-          { 
-            orderedPlayersDown.map((player) => {
-              return (
-            <Player 
-            playerContent={player.playerContent}
-            playerId={player.id}
-            key={player.id}
-            upvotePlayer={this.upvotePlayer}
-            downvotePlayer={this.downvotePlayer}
-            userLogIn = {this.userLogIn}
-            userLogOut = {this.userLogOut}
-            />
-              )
-            })
-          }
-          </div>
-          </div>
-        </div> //playersWrapper
+      </div> //playersWrapper
     );
   }
 }
