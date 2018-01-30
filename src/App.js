@@ -109,10 +109,13 @@ class App extends Component {
             
             ref.child(uid).once('value', snap => {
 
-              if (snap.val() === 1 || snap.val() === 0){
+              if (snap.val() === 1 || snap.val() === 0 || snap.val() === null){
                 ref.child(uid).set(-1);
-              } else {
-              ref.child(uid).set(0);
+              } else if (snap.val() === -1) {
+                ref.child(uid).set(0);
+                }
+              else {
+                  console.log("Error in downvoting. snap.val(): " + snap.val())
               }
             
             })
@@ -164,11 +167,13 @@ class App extends Component {
             console.log("Exists")
             
             ref.child(uid).once('value', snap => {
-
-              if (snap.val() === 0 || snap.val() === -1){
+              if (snap.val() === 0 || snap.val() === -1 || snap.val() == null){
                 ref.child(uid).set(1);
-              } else {
+              } else if (snap.val() === 1) {
               ref.child(uid).set(0);
+              }
+              else {
+                console.log("Error in upvoting. snap.val(): " + snap.val())
               }
 
             })
