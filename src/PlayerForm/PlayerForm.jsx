@@ -17,22 +17,16 @@ class PlayerForm extends Component {
     }
 
 checkIfUserExists(newPlayerContent) {
-    console.log("in checkIfUserExists")
-
     var playersRef = firebase.database().ref();
     playersRef.child('players').orderByChild("playerContent").equalTo(newPlayerContent).once("value",snapshot => {
         const userData = snapshot.val();
         if (userData){
-          console.log("exists!");
-
           this.state.duplicate = true;
-          
-          console.log(this.state.duplicate)
+          console.log("Duplicate: " + this.state.duplicate)
         }
         else{
-          console.log("does not exist.")
           this.state.duplicate = false;
-          console.log(this.state.duplicate)
+          console.log("Duplicate: " + this.state.duplicate)
         }
     });
 }
@@ -56,11 +50,8 @@ writePlayerUp(newPlayerContent){
         var playersRef = firebase.database().ref();
         playersRef.child('players').orderByChild("playerContent").equalTo(this.state.newPlayerContent).once("value",snapshot => {
         snapshot.forEach(child => {
-            const data = child.val();
             const key = child.key
-            playersRef.child('players/'+key).update({
-                votes: data.votes + 1,
-                })
+            
             this.props.upvotePlayer(key);
             })
         });
@@ -77,9 +68,9 @@ writePlayerUp(newPlayerContent){
             snapshot.forEach(child => {
                 const data = child.val();
                 const key = child.key
-                playersRef.child('players/'+key).update({
+                /*playersRef.child('players/'+key).update({
                     votes: data.votes + 1,
-                })
+                })*/
 
                 this.props.upvotePlayer(key);
             })
@@ -111,11 +102,7 @@ writePlayerDown(newPlayerContent){
         var playersRef = firebase.database().ref();
         playersRef.child('players').orderByChild("playerContent").equalTo(this.state.newPlayerContent).once("value",snapshot => {
         snapshot.forEach(child => {
-            const data = child.val();
-            const key = child.key
-            playersRef.child('players/'+key).update({
-                votes: data.votes - 1,
-                })
+            const key = child.key            
             this.props.downvotePlayer(key)
             })
         });
@@ -129,11 +116,7 @@ writePlayerDown(newPlayerContent){
             var playersRef = firebase.database().ref();
             playersRef.child('players').orderByChild("playerContent").equalTo(this.state.newPlayerContent).once("value",snapshot => {
             snapshot.forEach(child => {
-                const data = child.val();
                 const key = child.key
-                playersRef.child('players/'+key).update({
-                    votes: data.votes - 1,
-                })
                 this.props.downvotePlayer(key)
             })
          });
