@@ -98,13 +98,36 @@ class App extends Component {
   //with a -1 to denote a downvote
   downvotePlayer(playerId) {
     if(this.state.user) {
-      let ref = firebase.database().ref('players/' + playerId + '/voters');
-      ref.child(uid).set(-1);
-    }
-  else {
-      console.log("Must be logged in to vote.")
+
+      let ref = firebase.database().ref('/players/' + playerId + '/voters');
+
+      ref.once('value', snap => {
+        var value = snap.val()
+        console.log(value)
+        if (value !== null) {
+            console.log("Exists")
+            
+            ref.child(uid).once('value', snap => {
+
+              if (snap.val() === 1 || snap.val() === 0){
+                ref.child(uid).set(-1);
+              } else {
+              ref.child(uid).set(0);
+              }
+            
+            })
+
+        } else {
+            console.log("Doesn't exist")
+            ref.child(uid).set(-1);
+        }
+    });
+   }
+   else {
+        console.log("Must be logged in to vote.")
     }
   }
+
 
   userLogOut() {
     auth.signOut()
@@ -131,12 +154,34 @@ class App extends Component {
   //with a 1 to denote an upvote
   upvotePlayer(playerId) {
     if(this.state.user) {
-        let ref = firebase.database().ref('players/' + playerId + '/voters');
-        ref.child(uid).set(1);
-      }
-    else {
+
+      let ref = firebase.database().ref('/players/' + playerId + '/voters');
+
+      ref.once('value', snap => {
+        var value = snap.val()
+        console.log(value)
+        if (value !== null) {
+            console.log("Exists")
+            
+            ref.child(uid).once('value', snap => {
+
+              if (snap.val() === 0 || snap.val() === -1){
+                ref.child(uid).set(1);
+              } else {
+              ref.child(uid).set(0);
+              }
+
+            })
+
+        } else {
+            console.log("Doesn't exist")
+            ref.child(uid).set(1);
+        }
+    });
+   }
+   else {
         console.log("Must be logged in to vote.")
-      }
+    }
   }
 
   weekTab() {
