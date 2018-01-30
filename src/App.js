@@ -105,7 +105,7 @@ class App extends Component {
         var value = snap.val()
         console.log(value)
         if (value !== null) {
-            console.log("Exists")
+            console.log("Exists ")
             
             ref.child(uid).once('value', snap => {
 
