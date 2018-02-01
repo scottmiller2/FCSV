@@ -10,7 +10,6 @@ firebase.initializeApp(DB_CONFIG)
 
 const provider = new firebase.auth.GoogleAuthProvider();
 const auth = firebase.auth();
-var uid;
 
 class App extends Component {
 
@@ -23,6 +22,7 @@ class App extends Component {
     this.database = firebase.database().ref().child('players');
     this.userLogIn = this.userLogIn.bind(this);
     this.userLogOut = this.userLogOut.bind(this);
+    this.uid = null;
     
     this.state = {
       players: [],
@@ -60,7 +60,7 @@ class App extends Component {
     auth.onAuthStateChanged((user) => {
       if (user) {
         this.setState({ user });
-        uid = user.uid;
+        this.uid = user.uid;
       }
     });
   }
@@ -107,12 +107,12 @@ class App extends Component {
         if (value !== null) {
             console.log("Exists ")
             
-            ref.child(uid).once('value', snap => {
+            ref.child(this.uid).once('value', snap => {
 
               if (snap.val() === 1 || snap.val() === 0 || snap.val() === null){
-                ref.child(uid).set(-1);
+                ref.child(this.uid).set(-1);
               } else if (snap.val() === -1) {
-                ref.child(uid).set(0);
+                ref.child(this.uid).set(0);
                 }
               else {
                   console.log("Error in downvoting. snap.val(): " + snap.val())
@@ -122,7 +122,7 @@ class App extends Component {
 
         } else {
             console.log("Doesn't exist")
-            ref.child(uid).set(-1);
+            ref.child(this.uid).set(-1);
         }
     });
    }
@@ -146,11 +146,10 @@ class App extends Component {
       .then((result) => {
         const user = result.user;
         this.setState({
-          user,
-          uid
+          user
         });
+        console.log("UID: " + this.state.uid)
       });
-      console.log("UID: " + uid)
   }
 
   //Trending influence — UID of the logged in user is put into the player's voter child
@@ -166,11 +165,11 @@ class App extends Component {
         if (value !== null) {
             console.log("Exists")
             
-            ref.child(uid).once('value', snap => {
+            ref.child(this.uid).once('value', snap => {
               if (snap.val() === 0 || snap.val() === -1 || snap.val() == null){
-                ref.child(uid).set(1);
+                ref.child(this.uid).set(1);
               } else if (snap.val() === 1) {
-              ref.child(uid).set(0);
+              ref.child(this.uid).set(0);
               }
               else {
                 console.log("Error in upvoting. snap.val(): " + snap.val())
@@ -180,7 +179,7 @@ class App extends Component {
 
         } else {
             console.log("Doesn't exist")
-            ref.child(uid).set(1);
+            ref.child(this.uid).set(1);
         }
     });
    }
@@ -247,6 +246,7 @@ class App extends Component {
                     downvotePlayer={this.downvotePlayer}
                     userLogIn={this.userLogIn}
                     userLogOut={this.userLogOut}
+                    uid={this.uid}
                   />
                 )
               })
@@ -265,6 +265,7 @@ class App extends Component {
                     downvotePlayer={this.downvotePlayer}
                     userLogIn={this.userLogIn}
                     userLogOut={this.userLogOut}
+                    uid={this.uid}
                   />
                 )
               })
