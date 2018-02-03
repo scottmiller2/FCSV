@@ -19,7 +19,7 @@ class Player extends Component{
     componentDidMount() {
       let ref = firebase.database().ref('/players/' + this.playerId + '/voters');
 
-      ref.once('value', snap => {
+      ref.on('value', snap => {
         var value = snap.val()
 
         if (value !== null && this.props.uid !== null) {       
