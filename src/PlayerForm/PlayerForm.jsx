@@ -5,6 +5,9 @@ import * as firebase from 'firebase';
 class PlayerForm extends Component {
     constructor(props) {
         super(props);
+
+        this.playersRef = firebase.database().ref();
+
         this.state= {
             newPlayerContent: '',
             duplicate: false,
@@ -17,8 +20,7 @@ class PlayerForm extends Component {
     }
 
 checkIfUserExists(newPlayerContent) {
-    var playersRef = firebase.database().ref();
-    playersRef.child('players').orderByChild("playerContent").equalTo(newPlayerContent).once("value",snapshot => {
+    this.playersRef.child('players').orderByChild("playerContent").equalTo(newPlayerContent).once("value",snapshot => {
         const userData = snapshot.val();
         if (userData){
           this.state.duplicate = true;
@@ -47,8 +49,7 @@ writePlayerUp(newPlayerContent){
         if(this.state.duplicate !== true){
         this.props.addPlayer(this.state.newPlayerContent);
         
-        var playersRef = firebase.database().ref();
-        playersRef.child('players').orderByChild("playerContent").equalTo(this.state.newPlayerContent).once("value",snapshot => {
+        this.playersRef.child('players').orderByChild("playerContent").equalTo(this.state.newPlayerContent).once("value",snapshot => {
         snapshot.forEach(child => {
             const key = child.key
             
@@ -63,15 +64,9 @@ writePlayerUp(newPlayerContent){
 
         //Legal string enetered and player has been found in the database. An upvote is cast.
         else{
-            var playersRef = firebase.database().ref();
-            playersRef.child('players').orderByChild("playerContent").equalTo(this.state.newPlayerContent).once("value",snapshot => {
+            this.playersRef.child('players').orderByChild("playerContent").equalTo(this.state.newPlayerContent).once("value",snapshot => {
             snapshot.forEach(child => {
-                const data = child.val();
                 const key = child.key
-                /*playersRef.child('players/'+key).update({
-                    votes: data.votes + 1,
-                })*/
-
                 this.props.upvotePlayer(key);
             })
          
@@ -99,8 +94,7 @@ writePlayerDown(newPlayerContent){
         this.props.addPlayer(this.state.newPlayerContent);
         
         //Cycling through players
-        var playersRef = firebase.database().ref();
-        playersRef.child('players').orderByChild("playerContent").equalTo(this.state.newPlayerContent).once("value",snapshot => {
+        this.playersRef.child('players').orderByChild("playerContent").equalTo(this.state.newPlayerContent).once("value",snapshot => {
         snapshot.forEach(child => {
             const key = child.key            
             this.props.downvotePlayer(key)
@@ -113,8 +107,7 @@ writePlayerDown(newPlayerContent){
         }
         //Legal player string is entered and the player has been found in the database. A vote is cast.
         else{
-            var playersRef = firebase.database().ref();
-            playersRef.child('players').orderByChild("playerContent").equalTo(this.state.newPlayerContent).once("value",snapshot => {
+            this.playersRef.child('players').orderByChild("playerContent").equalTo(this.state.newPlayerContent).once("value",snapshot => {
             snapshot.forEach(child => {
                 const key = child.key
                 this.props.downvotePlayer(key)

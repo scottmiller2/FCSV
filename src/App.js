@@ -23,6 +23,7 @@ class App extends Component {
     this.userLogIn = this.userLogIn.bind(this);
     this.userLogOut = this.userLogOut.bind(this);
     this.uid = null;
+    this.userScore = 0;
     
     this.state = {
       players: [],
@@ -44,7 +45,6 @@ class App extends Component {
         playerContent: snap.val().playerContent,
         votes: snap.val().votes
       })
-
 
       this.database.on('child_changed', function (snapshot) {
         var name = snapshot.val();
@@ -109,10 +109,39 @@ class App extends Component {
             
             ref.child(this.uid).once('value', snap => {
 
-              if (snap.val() === 1 || snap.val() === 0 || snap.val() === null){
+              if (snap.val() === 0 || snap.val() === null){
                 ref.child(this.uid).set(-1);
+                
+                //Added vote balancing
+                this.database.child(playerId).transaction(function(player) {
+                  if (player) {
+                    player.votes--
+                  }
+                  return player;
+                })
+
+              } else if (snap.val() === 1){
+                ref.child(this.uid).set(-1);
+              
+               //Added vote balancing 
+               this.database.child(playerId).transaction(function(player) {
+                 if (player) {
+                   player.votes--
+                   player.votes--
+                 }
+                 return player;
+               })
               } else if (snap.val() === -1) {
                 ref.child(this.uid).set(0);
+
+                //Added vote balancing
+                this.database.child(playerId).transaction(function(player) {
+                  if (player) {
+                    player.votes++
+                  }
+                  return player;
+                })
+
                 }
               else {
                   console.log("Error in downvoting. snap.val(): " + snap.val())
@@ -123,6 +152,14 @@ class App extends Component {
         } else {
             console.log("Doesn't exist")
             ref.child(this.uid).set(-1);
+
+            //Added vote balancing
+            this.database.child(playerId).transaction(function(player) {
+              if (player) {
+                player.votes--
+              }
+              return player;
+            })
         }
     });
    }
@@ -156,20 +193,49 @@ class App extends Component {
   //with a 1 to denote an upvote
   upvotePlayer(playerId) {
     if(this.state.user) {
-
-      let ref = firebase.database().ref('/players/' + playerId + '/voters');
+      let ref = firebase.database().ref('/players/' + playerId + '/voters'); 
 
       ref.once('value', snap => {
         var value = snap.val()
-        console.log(value)
-        if (value !== null) {
-            console.log("Exists")
-            
+        if (value !== null) {            
             ref.child(this.uid).once('value', snap => {
-              if (snap.val() === 0 || snap.val() === -1 || snap.val() == null){
+
+              //if -1 add 2 for voting?
+
+              if (snap.val() === 0 || snap.val() == null){
                 ref.child(this.uid).set(1);
+              
+               //Added vote balancing 
+               this.database.child(playerId).transaction(function(player) {
+                 if (player) {
+                   player.votes++
+                 }
+                 return player;
+               })
+
+              } else if (snap.val() === -1){
+                ref.child(this.uid).set(1);
+              
+               //Added vote balancing 
+               this.database.child(playerId).transaction(function(player) {
+                 if (player) {
+                   player.votes++
+                   player.votes++
+                 }
+                 return player;
+               })
               } else if (snap.val() === 1) {
               ref.child(this.uid).set(0);
+
+              //Added vote balancing
+              this.database.child(playerId).transaction(function(player) {
+                if (player) {
+                  player.votes--
+                }
+                return player;
+              })
+
+
               }
               else {
                 console.log("Error in upvoting. snap.val(): " + snap.val())
@@ -180,9 +246,17 @@ class App extends Component {
         } else {
             console.log("Doesn't exist")
             ref.child(this.uid).set(1);
+
+            //Added vote balancing
+            this.database.child(playerId).transaction(function(player) {
+              if (player) {
+                player.votes++
+              }
+              return player;
+            })
         }
-    });
-   }
+    }); 
+  }
    else {
         console.log("Must be logged in to vote.")
     }
@@ -204,6 +278,7 @@ class App extends Component {
           this.state.user ?
             <div className='user-profile'>
               <img className='profile-image' onClick={this.userLogOut} src={this.state.user.photoURL} alt={"userphoto"} />
+              <span className='user-score'> {this.userScore} </span>
             </div>
             :
             console.log("You must be logged in to contribute.")
