@@ -111,8 +111,26 @@ class App extends Component {
 
               if (snap.val() === 1 || snap.val() === 0 || snap.val() === null){
                 ref.child(this.uid).set(-1);
+                
+                //Added vote balancing
+                this.database.child(playerId).transaction(function(player) {
+                  if (player) {
+                    player.votes--
+                  }
+                  return player;
+                })
+
               } else if (snap.val() === -1) {
                 ref.child(this.uid).set(0);
+
+                //Added vote balancing
+                this.database.child(playerId).transaction(function(player) {
+                  if (player) {
+                    player.votes++
+                  }
+                  return player;
+                })
+
                 }
               else {
                   console.log("Error in downvoting. snap.val(): " + snap.val())
@@ -123,6 +141,14 @@ class App extends Component {
         } else {
             console.log("Doesn't exist")
             ref.child(this.uid).set(-1);
+
+            //Added vote balancing
+            this.database.child(playerId).transaction(function(player) {
+              if (player) {
+                player.votes--
+              }
+              return player;
+            })
         }
     });
    }
@@ -156,7 +182,7 @@ class App extends Component {
   //with a 1 to denote an upvote
   upvotePlayer(playerId) {
     if(this.state.user) {
-      let ref = firebase.database().ref('/players/' + playerId + '/voters');
+      let ref = firebase.database().ref('/players/' + playerId + '/voters'); 
 
       ref.once('value', snap => {
         var value = snap.val()
@@ -164,8 +190,27 @@ class App extends Component {
             ref.child(this.uid).once('value', snap => {
               if (snap.val() === 0 || snap.val() === -1 || snap.val() == null){
                 ref.child(this.uid).set(1);
+              
+               //Added vote balancing 
+               this.database.child(playerId).transaction(function(player) {
+                 if (player) {
+                   player.votes++
+                 }
+                 return player;
+               })
+
               } else if (snap.val() === 1) {
               ref.child(this.uid).set(0);
+
+              //Added vote balancing
+              this.database.child(playerId).transaction(function(player) {
+                if (player) {
+                  player.votes--
+                }
+                return player;
+              })
+
+
               }
               else {
                 console.log("Error in upvoting. snap.val(): " + snap.val())
@@ -176,9 +221,17 @@ class App extends Component {
         } else {
             console.log("Doesn't exist")
             ref.child(this.uid).set(1);
+
+            //Added vote balancing
+            this.database.child(playerId).transaction(function(player) {
+              if (player) {
+                player.votes++
+              }
+              return player;
+            })
         }
-    });
-   }
+    }); 
+  }
    else {
         console.log("Must be logged in to vote.")
     }
