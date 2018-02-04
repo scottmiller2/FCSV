@@ -109,7 +109,7 @@ class App extends Component {
             
             ref.child(this.uid).once('value', snap => {
 
-              if (snap.val() === 1 || snap.val() === 0 || snap.val() === null){
+              if (snap.val() === 0 || snap.val() === null){
                 ref.child(this.uid).set(-1);
                 
                 //Added vote balancing
@@ -120,6 +120,17 @@ class App extends Component {
                   return player;
                 })
 
+              } else if (snap.val() === 1){
+                ref.child(this.uid).set(-1);
+              
+               //Added vote balancing 
+               this.database.child(playerId).transaction(function(player) {
+                 if (player) {
+                   player.votes--
+                   player.votes--
+                 }
+                 return player;
+               })
               } else if (snap.val() === -1) {
                 ref.child(this.uid).set(0);
 
@@ -188,7 +199,10 @@ class App extends Component {
         var value = snap.val()
         if (value !== null) {            
             ref.child(this.uid).once('value', snap => {
-              if (snap.val() === 0 || snap.val() === -1 || snap.val() == null){
+
+              //if -1 add 2 for voting?
+
+              if (snap.val() === 0 || snap.val() == null){
                 ref.child(this.uid).set(1);
               
                //Added vote balancing 
@@ -199,6 +213,17 @@ class App extends Component {
                  return player;
                })
 
+              } else if (snap.val() === -1){
+                ref.child(this.uid).set(1);
+              
+               //Added vote balancing 
+               this.database.child(playerId).transaction(function(player) {
+                 if (player) {
+                   player.votes++
+                   player.votes++
+                 }
+                 return player;
+               })
               } else if (snap.val() === 1) {
               ref.child(this.uid).set(0);
 
