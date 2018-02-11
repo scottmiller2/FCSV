@@ -28,7 +28,6 @@ class App extends Component {
     this.userLogIn = this.userLogIn.bind(this);
     this.userLogOut = this.userLogOut.bind(this);
     this.uid = null;
-    this.userScore = 0;
     
     this.state = {
       players: [],
@@ -48,7 +47,7 @@ class App extends Component {
         },
         beep: false,
         timeout: 2000,
-        offset: 50
+        offset: 58
     });
   }
   alertUpVoteSmall() {
@@ -72,7 +71,7 @@ class App extends Component {
         },
         beep: false,
         timeout: 2000,
-        offset: 50
+        offset: 58
     });
   }
   alertRemoveVoteSmall() {
@@ -96,7 +95,7 @@ class App extends Component {
         },
         beep: false,
         timeout: 2000,
-        offset: 50
+        offset: 58
     });
   }
   alertDownVoteSmall() {
@@ -117,6 +116,43 @@ class App extends Component {
         effect: 'genie',
         onShow: function () {
             console.log('must be logged in fired!')
+        },
+        beep: false,
+        timeout: 3000,
+        offset: 0
+    });
+  }
+
+  alertPermission() {
+    Alert.error('You do not have permission to add players yet', {
+        position: 'bottom',
+        effect: 'genie',
+        onShow: function () {
+            console.log("")
+        },
+        beep: false,
+        timeout: 3000,
+        offset: 0
+    });
+  }
+  alertLoggedOut() {
+    Alert.success('You have been successfully logged out', {
+        position: 'bottom',
+        effect: 'genie',
+        onShow: function () {
+            console.log("")
+        },
+        beep: false,
+        timeout: 3000,
+        offset: 0
+    });
+  }
+  alertLoggedIn() {
+    Alert.success('You have been successfully logged in', {
+        position: 'bottom',
+        effect: 'genie',
+        onShow: function () {
+            console.log("")
         },
         beep: false,
         timeout: 3000,
@@ -155,10 +191,17 @@ class App extends Component {
   }
   addPlayer(player) {
 
-    this.state.user ?
+    if(this.state.user && this.uid === "vKl6rIUuI0WsbeWVORz3twPUfnd2"){
       this.database.push().set({ playerContent: player, votes: 0})
-      :
+      console.log("Must be the money")
+      }
+      else if (this.state.user && this.uid !== "vKl6rIUuI0WsbeWVORz3twPUfnd2"){
+      this.alertPermission()
+      console.log("Must not be money")
+      }
+    else{
       this.alertNotLoggedIn()
+    }
   }
 
   byeTab() {
@@ -285,6 +328,7 @@ class App extends Component {
         this.setState({
           user: null
         });
+        this.alertLoggedOut()
       });
   }
 
@@ -296,6 +340,7 @@ class App extends Component {
           user
         });
         console.log("UID: " + user.uid)
+        this.alertLoggedIn()
     });
   }
 
@@ -396,7 +441,7 @@ class App extends Component {
   render() {
     const players = this.state.players;
     const orderedPlayersUp = _.orderBy(players, ['votes'], ['desc']).filter(p => p.votes >= 0);
-    const orderedPlayersDown = _.orderBy(players, ['votes']).filter(p => p.votes <= 0);
+    const orderedPlayersDown = _.orderBy(players, ['votes']).filter(p => p.votes < 0);
     let hideWeek = this.state.weekTabVisible ? "none" : "block"
     return (
       <div className="playersWrapper">
@@ -406,7 +451,6 @@ class App extends Component {
             <div className='user-profile'>
               <div className="authArea"><button className="logout" onClick={this.userLogOut}>Log Out</button></div>
               <img className='profile-image' src={this.state.user.photoURL} alt={"userphoto"} />
-              <span className='user-score'> {this.userScore} </span>
             </div>
             :
             console.log("1.0.0")
