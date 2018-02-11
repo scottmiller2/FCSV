@@ -42,13 +42,13 @@ background-attachment: fixed;
 .user-profile{
   box-sizing: border-box;
   float: right;
+  padding-right: 50px;
 }
 
 .profile-image{
   float: right;
-  height: 50px;
-  width: 50px;
-  margin: 7px 10px 0 0;
+  height: 65px;
+  width: 65px;
   font-family: 'Roboto', sans-serif;
   font-size: 8pt;
   opacity: 0.8;
@@ -108,33 +108,37 @@ button{
 }
 
 .login {
-  height: 45px;
+  position: absolute;
+  top:0;
+  right: 0;
+  height: 65px;
   width: 70px;
-  margin-top: 3px;
-  padding: 0 2px 0 0;
+  padding: 0 0px 0 0;
   font-family: 'Roboto', sans-serif;
   color: rgba(255, 255, 255, 0.9);
   font-size: 11pt;
   white-space: nowrap;
-  border-radius: 5px;
+  border-radius: 0px;
   background-color: #00ab9e;
   text-align: center;
   cursor: pointer;
 }
 
 .logout {
-  height: 45px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 65px;
   width: 70px;
-  margin-top: 3px;
-  padding: 0 2px 0 0;
+  padding: 0 0px 0 0;
   font-family: 'Roboto', sans-serif;
   color: rgba(255, 255, 255, 0.9);
   font-size: 11pt;
   white-space: nowrap;
-  border-radius: 5px;
   background-color: #d64646;
   text-align: center;
   cursor: pointer;
+  opacity: 0.9;
 }
 
 /*Search area*/
@@ -248,16 +252,9 @@ white-space: nowrap;
   .searchBar{
     margin-top: 33px;
   }
-  .userBar{
-    height: 55px;
-  }
   .profile-image{
-    height: 40px;
-    width: 40px;
-    border-right: 5px;
-    border-style: solid;
-    border-color: green;
-    padding: 0 0 2px 0;
+    height: 65px;
+    width: 65px;
   }
   .loginSignUpOut{
     height: 40px;

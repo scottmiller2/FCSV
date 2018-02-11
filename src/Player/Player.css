@@ -88,6 +88,7 @@
     box-shadow: 1px 1px #333;
   }
 
+  /*
   .down:hover {
     border-width: 0px;
     background-color: #fb655a;
@@ -107,6 +108,7 @@
   .up:active {
     color: #000;
   }
+  */
 
 /*@media (max-width: 600px) {
   .player{
