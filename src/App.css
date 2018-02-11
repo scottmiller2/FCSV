@@ -21,9 +21,15 @@ background-attachment: fixed;
   border: 0;
 }
 
+.alert{
+  height: 250px;
+  max-height: 250px;
+}
+
 .playersWrapper {
   display: flex;
   flex-direction: column;
+
 }
 
 /* Login and user image top bar */
@@ -42,7 +48,6 @@ background-attachment: fixed;
   float: right;
   height: 50px;
   width: 50px;
-  cursor: pointer;
   margin: 7px 10px 0 0;
   font-family: 'Roboto', sans-serif;
   font-size: 8pt;
@@ -51,7 +56,6 @@ background-attachment: fixed;
 
 .user-score{
   float: right;
-  cursor: pointer;
   margin: 16px 25px 0 0;
   font-family: 'Roboto', sans-serif;
   color: #00ab9e;
@@ -103,7 +107,7 @@ button{
   outline: none;
 }
 
-.loginSignUpOut {
+.login {
   height: 45px;
   width: 70px;
   margin-top: 3px;
@@ -115,16 +119,22 @@ button{
   border-radius: 5px;
   background-color: #00ab9e;
   text-align: center;
+  cursor: pointer;
 }
 
-.loginSignUpIn:hover {
-  background-color: #fb655a;
-  color: black;
-}
-
-.loginSignUpOut:hover {
-  background-color:#00af9e;
-  color: white;
+.logout {
+  height: 45px;
+  width: 70px;
+  margin-top: 3px;
+  padding: 0 2px 0 0;
+  font-family: 'Roboto', sans-serif;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 11pt;
+  white-space: nowrap;
+  border-radius: 5px;
+  background-color: #d64646;
+  text-align: center;
+  cursor: pointer;
 }
 
 /*Search area*/
@@ -213,6 +223,10 @@ white-space: nowrap;
   border-radius: 5px;
   box-shadow: 43x 3px 2px #333;
   white-space: nowrap;
+}
+
+.alert{
+  max-height: 10%;
 }
 
 @media (max-width:600px){
