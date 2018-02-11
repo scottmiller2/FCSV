@@ -5,6 +5,10 @@ import { DB_CONFIG } from './Config/config';
 import * as firebase from 'firebase';
 import './App.css';
 import _ from 'lodash';
+import Alert from 'react-s-alert';
+import './alert.css';
+import 'react-s-alert/dist/s-alert-css-effects/slide.css';
+import 'react-s-alert/dist/s-alert-css-effects/genie.css';
 
 firebase.initializeApp(DB_CONFIG)
 
@@ -34,6 +38,54 @@ class App extends Component {
     this.players = [];
   }
   
+  alertUpVote() {
+    Alert.success('Successful Upvote!', {
+        position: 'top-right',
+        effect: 'slide',
+        onShow: function () {
+            console.log('alertUpvote fired!')
+        },
+        beep: false,
+        timeout: 2000,
+        offset: 50
+    });
+  }
+  alertRemoveVote() {
+    Alert.warning('Removed vote', {
+        position: 'top-right',
+        effect: 'slide',
+        onShow: function () {
+            console.log('removevote fired!')
+        },
+        beep: false,
+        timeout: 2000,
+        offset: 50
+    });
+  }
+  alertDownVote() {
+    Alert.error('Successful Downvote!', {
+        position: 'top-right',
+        effect: 'slide',
+        onShow: function () {
+            console.log('downvote fired!')
+        },
+        beep: false,
+        timeout: 2000,
+        offset: 50
+    });
+  }
+  alertNotLoggedIn() {
+    Alert.error('You must log in to vote', {
+        position: 'bottom',
+        effect: 'genie',
+        onShow: function () {
+            console.log('must be logged in fired!')
+        },
+        beep: false,
+        timeout: 3000,
+        offset: 0
+    });
+  }
 
   componentWillMount() {
     
@@ -69,7 +121,7 @@ class App extends Component {
     this.state.user ?
       this.database.push().set({ playerContent: player, votes: 0})
       :
-      console.log("Not Logged In")
+      this.alertNotLoggedIn()
   }
 
   byeTab() {
@@ -111,7 +163,7 @@ class App extends Component {
 
               if (snap.val() === 0 || snap.val() === null){
                 ref.child(this.uid).set(-1);
-                
+                this.alertDownVote()
                 //Added vote balancing
                 this.database.child(playerId).transaction(function(player) {
                   if (player) {
@@ -122,7 +174,7 @@ class App extends Component {
 
               } else if (snap.val() === 1){
                 ref.child(this.uid).set(-1);
-              
+                this.alertDownVote()
                //Added vote balancing 
                this.database.child(playerId).transaction(function(player) {
                  if (player) {
@@ -133,7 +185,7 @@ class App extends Component {
                })
               } else if (snap.val() === -1) {
                 ref.child(this.uid).set(0);
-
+                this.alertRemoveVote()
                 //Added vote balancing
                 this.database.child(playerId).transaction(function(player) {
                   if (player) {
@@ -152,7 +204,7 @@ class App extends Component {
         } else {
             console.log("Doesn't exist")
             ref.child(this.uid).set(-1);
-
+            this.alertDownVote()
             //Added vote balancing
             this.database.child(playerId).transaction(function(player) {
               if (player) {
@@ -164,6 +216,7 @@ class App extends Component {
     });
    }
    else {
+        this.alertNotLoggedIn()
         console.log("Must be logged in to vote.")
     }
   }
@@ -185,8 +238,8 @@ class App extends Component {
         this.setState({
           user
         });
-        console.log("UID: " + this.state.uid)
-      });
+        console.log("UID: " + user.uid)
+    });
   }
 
   //Trending influence — UID of the logged in user is put into the player's voter child
@@ -204,7 +257,7 @@ class App extends Component {
 
               if (snap.val() === 0 || snap.val() == null){
                 ref.child(this.uid).set(1);
-              
+                this.alertUpVote();
                //Added vote balancing 
                this.database.child(playerId).transaction(function(player) {
                  if (player) {
@@ -215,7 +268,7 @@ class App extends Component {
 
               } else if (snap.val() === -1){
                 ref.child(this.uid).set(1);
-              
+                this.alertUpVote();
                //Added vote balancing 
                this.database.child(playerId).transaction(function(player) {
                  if (player) {
@@ -226,7 +279,7 @@ class App extends Component {
                })
               } else if (snap.val() === 1) {
               ref.child(this.uid).set(0);
-
+              this.alertRemoveVote();
               //Added vote balancing
               this.database.child(playerId).transaction(function(player) {
                 if (player) {
@@ -246,7 +299,7 @@ class App extends Component {
         } else {
             console.log("Doesn't exist")
             ref.child(this.uid).set(1);
-
+            this.alertUpVote()
             //Added vote balancing
             this.database.child(playerId).transaction(function(player) {
               if (player) {
@@ -258,6 +311,7 @@ class App extends Component {
     }); 
   }
    else {
+        this.alertNotLoggedIn()
         console.log("Must be logged in to vote.")
     }
   }
@@ -268,8 +322,8 @@ class App extends Component {
 
   render() {
     const players = this.state.players;
-    const orderedPlayersUp = _.orderBy(players, ['votes'], ['desc']);
-    const orderedPlayersDown = _.orderBy(players, ['votes']);
+    const orderedPlayersUp = _.orderBy(players, ['votes'], ['desc']).filter(p => p.votes >= 0);
+    const orderedPlayersDown = _.orderBy(players, ['votes']).filter(p => p.votes <= 0);
     let hideWeek = this.state.weekTabVisible ? "none" : "block"
     return (
       <div className="playersWrapper">
@@ -277,17 +331,18 @@ class App extends Component {
         {
           this.state.user ?
             <div className='user-profile'>
-              <img className='profile-image' onClick={this.userLogOut} src={this.state.user.photoURL} alt={"userphoto"} />
+              <div className="authArea"><button className="logout" onClick={this.userLogOut}>Log Out</button></div>
+              <img className='profile-image' src={this.state.user.photoURL} alt={"userphoto"} />
               <span className='user-score'> {this.userScore} </span>
             </div>
             :
-            console.log("You must be logged in to contribute.")
+            console.log("userBar")
         }
         {
           this.state.user ?
             console.log("")
             :
-            <div className="authArea"><button className="loginSignUpOut" onClick={this.userLogIn}>Sign In</button></div>
+            <div className="authArea"><button className="login" onClick={this.userLogIn}>Sign In</button></div>
         }
         </div>
         <div className="titleBar">
@@ -295,7 +350,6 @@ class App extends Component {
              className="fantsy-image" alt={"background"} />
             <div className="subheading">Crowdsourced Player trends</div>
           </div>
-
         </div>
 
 
@@ -347,7 +401,8 @@ class App extends Component {
             }
           </div>
         </div>
-      </div> //playersWrapper
+        <span className ="alert"><Alert stack={{limit: 3}} /></span>
+      </div> //playersWrapper 
     );
   }
 }
