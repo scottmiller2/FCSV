@@ -14,6 +14,7 @@ firebase.initializeApp(DB_CONFIG)
 
 const provider = new firebase.auth.GoogleAuthProvider();
 const auth = firebase.auth();
+let screenSize = window.innerWidth;
 
 class App extends Component {
 
@@ -50,6 +51,18 @@ class App extends Component {
         offset: 50
     });
   }
+  alertUpVoteSmall() {
+    Alert.success('Successful Upvote!', {
+        position: 'bottom',
+        effect: 'slide',
+        onShow: function () {
+            console.log('alertUpvote fired!')
+        },
+        beep: false,
+        timeout: 2000,
+        offset: 0
+    });
+  }
   alertRemoveVote() {
     Alert.warning('Removed vote', {
         position: 'top-right',
@@ -62,6 +75,18 @@ class App extends Component {
         offset: 50
     });
   }
+  alertRemoveVoteSmall() {
+    Alert.warning('Removed vote', {
+        position: 'bottom',
+        effect: 'slide',
+        onShow: function () {
+            console.log('removevote fired!')
+        },
+        beep: false,
+        timeout: 2000,
+        offset: 0
+    });
+  }
   alertDownVote() {
     Alert.error('Successful Downvote!', {
         position: 'top-right',
@@ -72,6 +97,18 @@ class App extends Component {
         beep: false,
         timeout: 2000,
         offset: 50
+    });
+  }
+  alertDownVoteSmall() {
+    Alert.error('Successful Downvote!', {
+        position: 'bottom',
+        effect: 'slide',
+        onShow: function () {
+            console.log('downvote fired!')
+        },
+        beep: false,
+        timeout: 2000,
+        offset: 0
     });
   }
   alertNotLoggedIn() {
@@ -163,7 +200,12 @@ class App extends Component {
 
               if (snap.val() === 0 || snap.val() === null){
                 ref.child(this.uid).set(-1);
-                this.alertDownVote()
+                if(screenSize < 700){
+                  this.alertDownVoteSmall();
+                  }
+                  else{
+                  this.alertDownVote();
+                  }
                 //Added vote balancing
                 this.database.child(playerId).transaction(function(player) {
                   if (player) {
@@ -174,7 +216,12 @@ class App extends Component {
 
               } else if (snap.val() === 1){
                 ref.child(this.uid).set(-1);
-                this.alertDownVote()
+                if(screenSize < 700){
+                  this.alertDownVoteSmall();
+                  }
+                  else{
+                  this.alertDownVote();
+                  }
                //Added vote balancing 
                this.database.child(playerId).transaction(function(player) {
                  if (player) {
@@ -185,7 +232,12 @@ class App extends Component {
                })
               } else if (snap.val() === -1) {
                 ref.child(this.uid).set(0);
-                this.alertRemoveVote()
+                if(screenSize < 700){
+                  this.alertRemoveVoteSmall();
+                  }
+                  else{
+                  this.alertRemoveVote();
+                  }
                 //Added vote balancing
                 this.database.child(playerId).transaction(function(player) {
                   if (player) {
@@ -204,7 +256,12 @@ class App extends Component {
         } else {
             console.log("Doesn't exist")
             ref.child(this.uid).set(-1);
-            this.alertDownVote()
+            if(screenSize < 700){
+              this.alertDownVoteSmall();
+              }
+              else{
+              this.alertDownVote();
+              }
             //Added vote balancing
             this.database.child(playerId).transaction(function(player) {
               if (player) {
@@ -256,8 +313,14 @@ class App extends Component {
               //if -1 add 2 for voting?
 
               if (snap.val() === 0 || snap.val() == null){
+                console.log(screenSize)
                 ref.child(this.uid).set(1);
+                if(screenSize < 700){
+                this.alertUpVoteSmall();
+                }
+                else{
                 this.alertUpVote();
+                }
                //Added vote balancing 
                this.database.child(playerId).transaction(function(player) {
                  if (player) {
@@ -268,7 +331,12 @@ class App extends Component {
 
               } else if (snap.val() === -1){
                 ref.child(this.uid).set(1);
+                if(screenSize < 700){
+                this.alertUpVoteSmall();
+                }
+                else{
                 this.alertUpVote();
+                }
                //Added vote balancing 
                this.database.child(playerId).transaction(function(player) {
                  if (player) {
@@ -279,7 +347,12 @@ class App extends Component {
                })
               } else if (snap.val() === 1) {
               ref.child(this.uid).set(0);
-              this.alertRemoveVote();
+              if(screenSize < 700){
+                this.alertRemoveVoteSmall();
+                }
+                else{
+                this.alertRemoveVote();
+                }
               //Added vote balancing
               this.database.child(playerId).transaction(function(player) {
                 if (player) {
@@ -336,7 +409,7 @@ class App extends Component {
               <span className='user-score'> {this.userScore} </span>
             </div>
             :
-            console.log("userBar")
+            console.log("1.0.0")
         }
         {
           this.state.user ?
