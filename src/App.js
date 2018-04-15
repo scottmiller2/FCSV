@@ -168,12 +168,12 @@ class App extends Component {
       previousPlayers.push({
         id: snap.key,
         playerContent: snap.val().playerContent,
-        votes: snap.val().votes
+        votes: snap.val().votes,
+        rank: snap.val().rank
       })
 
       this.database.on('child_changed', function (snapshot) {
         var name = snapshot.val();
-        console.log("Player: " + name.playerContent + " has  " + name.votes + " votes.")
       })
 
       this.setState({
@@ -190,9 +190,9 @@ class App extends Component {
     });
   }
   addPlayer(player) {
-
+    //later should be if mod == true or group == .. to confirm admin
     if(this.state.user && this.uid === "vKl6rIUuI0WsbeWVORz3twPUfnd2"){
-      this.database.push().set({ playerContent: player, votes: 0})
+      this.database.push().set({ playerContent: player, votes: 0, rank: 0})
       console.log("Must be the money")
       }
       else if (this.state.user && this.uid !== "vKl6rIUuI0WsbeWVORz3twPUfnd2"){
@@ -441,7 +441,11 @@ class App extends Component {
   render() {
     const players = this.state.players;
     const orderedPlayersUp = _.orderBy(players, ['votes'], ['desc']).filter(p => p.votes >= 0);
-    const orderedPlayersDown = _.orderBy(players, ['votes']).filter(p => p.votes < 0);
+    const orderedPlayersDown = _.orderBy(players, ['votes'],).filter(p => p.votes < 0);
+    const orderedPlayersRank = _.orderBy(players, ['votes'], ['desc'])
+
+    let prevPlayerVotes = 0
+    let rankCount = 1
     let hideWeek = this.state.weekTabVisible ? "none" : "block"
     return (
       <div className="playersWrapper">
@@ -449,8 +453,7 @@ class App extends Component {
         {
           this.state.user ?
             <div className='user-profile'>
-              <div className="authArea"><button className="logout" onClick={this.userLogOut}>Log Out</button></div>
-              <img className='profile-image' src={this.state.user.photoURL} alt={"userphoto"} />
+              <div className="authArea"><button className="logout" onClick={this.userLogOut}>:</button></div>
             </div>
             :
             console.log("1.0.0")
@@ -459,7 +462,7 @@ class App extends Component {
           this.state.user ?
             console.log("")
             :
-            <div className="authArea"><button className="login" onClick={this.userLogIn}>Sign In</button></div>
+            <div className="authArea"><button className="login" onClick={this.userLogIn}>Login</button></div>
         }
         </div>
         <div className="titleBar">
@@ -481,12 +484,32 @@ class App extends Component {
         <div className="playersColumns">
           <div className="playersBody">
             <span className="trendHeaderUp">TRENDING UP</span>
+            {  
+              orderedPlayersRank.map((player) => {
+                this.database.child(player.id).transaction(function(player) {
+                  if (player.votes >= prevPlayerVotes) {
+                    prevPlayerVotes = player.votes
+                    player.rank = rankCount
+                  }
+                  else if(player.votes < prevPlayerVotes){
+                    rankCount++
+                    player.rank = rankCount
+                    prevPlayerVotes = player.votes
+                  }
+                  else{
+                    console.log("Rank calculation error.")
+                  }
+                  return player;
+                })
+              })
+            }
             {
               orderedPlayersUp.map((player) => {
                 return (
                   <Player
                     playerContent={player.playerContent}
                     playerId={player.id}
+                    rank={player.rank}
                     key={player.id}
                     upvotePlayer={this.upvotePlayer}
                     downvotePlayer={this.downvotePlayer}
@@ -506,6 +529,7 @@ class App extends Component {
                   <Player
                     playerContent={player.playerContent}
                     playerId={player.id}
+                    rank={player.rank}
                     key={player.id}
                     upvotePlayer={this.upvotePlayer}
                     downvotePlayer={this.downvotePlayer}
