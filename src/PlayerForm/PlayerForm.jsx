@@ -24,11 +24,9 @@ checkIfUserExists(newPlayerContent) {
         const userData = snapshot.val();
         if (userData){
           this.state.duplicate = true;
-          console.log("Duplicate: " + this.state.duplicate)
         }
         else{
           this.state.duplicate = false;
-          console.log("Duplicate: " + this.state.duplicate)
         }
     });
 }
