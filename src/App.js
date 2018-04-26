@@ -16,6 +16,9 @@ const provider = new firebase.auth.GoogleAuthProvider();
 const auth = firebase.auth();
 let screenSize = window.innerWidth;
 
+let prevPlayerVotes = 0
+let rankCount = 1
+
 class App extends Component {
 
   constructor(props) {
@@ -32,19 +35,17 @@ class App extends Component {
     this.state = {
       players: [],
       user: null,
-      weekTabVisible: null,
+      weekTabVisible: true, //was null
       byeTabVisible: null
     }
+
     this.players = [];
   }
-  
+
   alertUpVote() {
     Alert.success('Successful Upvote!', {
         position: 'top-right',
         effect: 'slide',
-        onShow: function () {
-            console.log('alertUpvote fired!')
-        },
         beep: false,
         timeout: 2000,
         offset: 58
@@ -168,12 +169,12 @@ class App extends Component {
       previousPlayers.push({
         id: snap.key,
         playerContent: snap.val().playerContent,
-        votes: snap.val().votes
+        votes: snap.val().votes,
+        rank: snap.val().rank
       })
 
       this.database.on('child_changed', function (snapshot) {
         var name = snapshot.val();
-        console.log("Player: " + name.playerContent + " has  " + name.votes + " votes.")
       })
 
       this.setState({
@@ -190,10 +191,9 @@ class App extends Component {
     });
   }
   addPlayer(player) {
-
+    //later should be if mod == true or group == .. to confirm admin
     if(this.state.user && this.uid === "vKl6rIUuI0WsbeWVORz3twPUfnd2"){
-      this.database.push().set({ playerContent: player, votes: 0})
-      console.log("Must be the money")
+      this.database.push().set({ playerContent: player, votes: 0, rank: 0})
       }
       else if (this.state.user && this.uid !== "vKl6rIUuI0WsbeWVORz3twPUfnd2"){
       this.alertPermission()
@@ -229,6 +229,8 @@ class App extends Component {
   //Trending influence — UID of the logged in user is put into the player's voter child
   //with a -1 to denote a downvote
   downvotePlayer(playerId) {
+    const players = this.state.players;
+    const orderedPlayersRank = _.orderBy(players, ['votes'], ['desc'])
     if(this.state.user) {
 
       let ref = firebase.database().ref('/players/' + playerId + '/voters');
@@ -256,8 +258,7 @@ class App extends Component {
                   }
                   return player;
                 })
-
-              } else if (snap.val() === 1){
+                } else if (snap.val() === 1){
                 ref.child(this.uid).set(-1);
                 if(screenSize < 700){
                   this.alertDownVoteSmall();
@@ -287,9 +288,8 @@ class App extends Component {
                     player.votes++
                   }
                   return player;
-                })
-
-                }
+                }) 
+              }
               else {
                   console.log("Error in downvoting. snap.val(): " + snap.val())
               }
@@ -319,6 +319,10 @@ class App extends Component {
         this.alertNotLoggedIn()
         console.log("Must be logged in to vote.")
     }
+  console.log(orderedPlayersRank)
+  console.log("prevPlayerVotes: " + prevPlayerVotes)
+  console.log("rankCount: " + rankCount)
+
   }
 
 
@@ -347,6 +351,9 @@ class App extends Component {
   //Trending influence — UID of the logged in user is put into the player's voter child
   //with a 1 to denote an upvote
   upvotePlayer(playerId) {
+    const players = this.state.players;
+    const orderedPlayersRank = _.orderBy(players, ['votes'], ['desc'])
+
     if(this.state.user) {
       let ref = firebase.database().ref('/players/' + playerId + '/voters'); 
 
@@ -354,11 +361,7 @@ class App extends Component {
         var value = snap.val()
         if (value !== null) {            
             ref.child(this.uid).once('value', snap => {
-
-              //if -1 add 2 for voting?
-
               if (snap.val() === 0 || snap.val() == null){
-                console.log(screenSize)
                 ref.child(this.uid).set(1);
                 if(screenSize < 700){
                 this.alertUpVoteSmall();
@@ -373,6 +376,11 @@ class App extends Component {
                  }
                  return player;
                })
+
+               
+               //ranking from no vote to upvote
+
+
 
               } else if (snap.val() === -1){
                 ref.child(this.uid).set(1);
@@ -390,6 +398,11 @@ class App extends Component {
                  }
                  return player;
                })
+
+
+               //ranking downvote to upvote
+
+
               } else if (snap.val() === 1) {
               ref.child(this.uid).set(0);
               if(screenSize < 700){
@@ -406,6 +419,9 @@ class App extends Component {
                 return player;
               })
 
+              
+              //ranking cancel upvote
+
 
               }
               else {
@@ -415,18 +431,44 @@ class App extends Component {
             })
 
         } else {
-            console.log("Doesn't exist")
             ref.child(this.uid).set(1);
             this.alertUpVote()
             //Added vote balancing
             this.database.child(playerId).transaction(function(player) {
               if (player) {
                 player.votes++
+                console.log("Player added")
               }
               return player;
             })
         }
-    }); 
+    });
+  
+            //ranking adding to db
+            orderedPlayersRank.map((player) => {   
+              if(orderedPlayersRank.length === 1){
+                this.database.child(player.id).transaction(function(player){
+                player.rank = rankCount
+                })
+              } 
+              else if (player.votes > prevPlayerVotes) {
+                
+                /*prevPlayerVotes = player.votes
+                this.database.child(player.id).transaction(function(player){
+                  player.rank = rankCount
+                })*/
+              } else if (player.votes < prevPlayerVotes) {
+                rankCount++
+                prevPlayerVotes = player.votes
+                /*this.database.child(player.id).transaction(function(player){
+                  player.rank = rankCount
+                })*/
+              } else {
+                  console.log("Rank calculation error.")
+              }
+              return player;
+           })
+  
   }
    else {
         this.alertNotLoggedIn()
@@ -441,7 +483,8 @@ class App extends Component {
   render() {
     const players = this.state.players;
     const orderedPlayersUp = _.orderBy(players, ['votes'], ['desc']).filter(p => p.votes >= 0);
-    const orderedPlayersDown = _.orderBy(players, ['votes']).filter(p => p.votes < 0);
+    const orderedPlayersDown = _.orderBy(players, ['votes'],).filter(p => p.votes < 0);
+
     let hideWeek = this.state.weekTabVisible ? "none" : "block"
     return (
       <div className="playersWrapper">
@@ -449,8 +492,7 @@ class App extends Component {
         {
           this.state.user ?
             <div className='user-profile'>
-              <div className="authArea"><button className="logout" onClick={this.userLogOut}>Log Out</button></div>
-              <img className='profile-image' src={this.state.user.photoURL} alt={"userphoto"} />
+              <div className="authArea"><button className="logout" onClick={this.userLogOut}>:</button></div>
             </div>
             :
             console.log("1.0.0")
@@ -459,7 +501,7 @@ class App extends Component {
           this.state.user ?
             console.log("")
             :
-            <div className="authArea"><button className="login" onClick={this.userLogIn}>Sign In</button></div>
+            <div className="authArea"><button className="login" onClick={this.userLogIn}>Login</button></div>
         }
         </div>
         <div className="titleBar">
@@ -487,6 +529,7 @@ class App extends Component {
                   <Player
                     playerContent={player.playerContent}
                     playerId={player.id}
+                    rank={player.rank}
                     key={player.id}
                     upvotePlayer={this.upvotePlayer}
                     downvotePlayer={this.downvotePlayer}
@@ -506,6 +549,7 @@ class App extends Component {
                   <Player
                     playerContent={player.playerContent}
                     playerId={player.id}
+                    rank={player.rank}
                     key={player.id}
                     upvotePlayer={this.upvotePlayer}
                     downvotePlayer={this.downvotePlayer}
