@@ -442,33 +442,7 @@ class App extends Component {
               return player;
             })
         }
-    });
-  
-            //ranking adding to db
-            orderedPlayersRank.map((player) => {   
-              if(orderedPlayersRank.length === 1){
-                this.database.child(player.id).transaction(function(player){
-                player.rank = rankCount
-                })
-              } 
-              else if (player.votes > prevPlayerVotes) {
-                
-                /*prevPlayerVotes = player.votes
-                this.database.child(player.id).transaction(function(player){
-                  player.rank = rankCount
-                })*/
-              } else if (player.votes < prevPlayerVotes) {
-                rankCount++
-                prevPlayerVotes = player.votes
-                /*this.database.child(player.id).transaction(function(player){
-                  player.rank = rankCount
-                })*/
-              } else {
-                  console.log("Rank calculation error.")
-              }
-              return player;
-           })
-  
+    });  
   }
    else {
         this.alertNotLoggedIn()

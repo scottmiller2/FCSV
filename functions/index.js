@@ -1,4 +1,5 @@
 const functions = require('firebase-functions');
+
 console.log("In Cloud Functions")
 var rank = functions.database.ref('players/{playerId}/votes')
 .onUpdate((change, context) => {
