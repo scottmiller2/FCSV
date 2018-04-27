@@ -1,7 +1,8 @@
 const functions = require('firebase-functions');
 
 console.log("In Cloud Functions")
-var rank = functions.database.ref('players/{playerId}/votes')
+
+exports.rank = functions.database.ref('players/{playerId}/votes')
 .onUpdate((change, context) => {
     console.log("In Cloud Functions onUpdate")
   var orderedListRef = change.after.ref.root.child('players').orderByChild('votes')
