@@ -16,9 +16,6 @@ const provider = new firebase.auth.GoogleAuthProvider();
 const auth = firebase.auth();
 let screenSize = window.innerWidth;
 
-let prevPlayerVotes = 0
-let rankCount = 1
-
 class App extends Component {
 
   constructor(props) {
@@ -320,8 +317,6 @@ class App extends Component {
         console.log("Must be logged in to vote.")
     }
   console.log(orderedPlayersRank)
-  console.log("prevPlayerVotes: " + prevPlayerVotes)
-  console.log("rankCount: " + rankCount)
 
   }
 
@@ -376,12 +371,6 @@ class App extends Component {
                  }
                  return player;
                })
-
-               
-               //ranking from no vote to upvote
-
-
-
               } else if (snap.val() === -1){
                 ref.child(this.uid).set(1);
                 if(screenSize < 700){
@@ -398,11 +387,6 @@ class App extends Component {
                  }
                  return player;
                })
-
-
-               //ranking downvote to upvote
-
-
               } else if (snap.val() === 1) {
               ref.child(this.uid).set(0);
               if(screenSize < 700){
@@ -418,11 +402,6 @@ class App extends Component {
                 }
                 return player;
               })
-
-              
-              //ranking cancel upvote
-
-
               }
               else {
                 console.log("Error in upvoting. snap.val(): " + snap.val())
