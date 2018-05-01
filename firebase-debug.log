@@ -1,0 +1,49 @@
+[debug] [2018-05-01T05:34:12.096Z] ----------------------------------------------------------------------
+[debug] [2018-05-01T05:34:12.099Z] Command:       /usr/local/bin/node /usr/local/bin/firebase serve
+[debug] [2018-05-01T05:34:12.099Z] CLI Version:   3.18.4
+[debug] [2018-05-01T05:34:12.099Z] Platform:      darwin
+[debug] [2018-05-01T05:34:12.099Z] Node Version:  v10.0.0
+[debug] [2018-05-01T05:34:12.100Z] Time:          Tue May 01 2018 01:34:12 GMT-0400 (EDT)
+[debug] [2018-05-01T05:34:12.100Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-05-01T05:34:12.112Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-05-01T05:34:12.113Z] > authorizing via signed-in user
+[debug] [2018-05-01T05:34:12.115Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2018-05-01T05:34:12.115Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ { refresh_token: '1/yVCLKIPmMqi14m85gBLmGBGZPsilbUwSmADK0QDTIHSwvSgApmrPY5UX3peaL7N9',
+  client_id: '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
+  client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
+  grant_type: 'refresh_token',
+  scope: 'email https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
+ Tue May 01 2018 01:34:12 GMT-0400 (EDT)
+[debug] [2018-05-01T05:34:12.311Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-01T05:34:12.326Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/fantsy-ae03e  
+  
+ Tue May 01 2018 01:34:12 GMT-0400 (EDT)
+[debug] [2018-05-01T05:34:13.230Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-01T05:34:13.231Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/fantsy-ae03e/tokens  
+  
+ Tue May 01 2018 01:34:13 GMT-0400 (EDT)
+[debug] [2018-05-01T05:34:13.539Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-01T05:34:13.541Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/fantsy-ae03e  
+  
+ Tue May 01 2018 01:34:13 GMT-0400 (EDT)
+[debug] [2018-05-01T05:34:13.828Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from '/Users/scottmiller/React/FCSV'...
+[info] 
+[info] i  functions: Preparing to emulate functions.
+[debug] [2018-05-01T05:34:14.514Z] Fetching environment
+[debug] [2018-05-01T05:34:14.517Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/680143355664:getServerAppConfig  
+  
+ Tue May 01 2018 01:34:14 GMT-0400 (EDT)
+[debug] [2018-05-01T05:34:14.518Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/680143355664/clients/_:getWebAppConfig  
+  
+ Tue May 01 2018 01:34:14 GMT-0400 (EDT)
+[debug] [2018-05-01T05:34:14.881Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-01T05:34:14.881Z] Starting @google-cloud/functions-emulator
+[debug] [2018-05-01T05:34:14.919Z] <<< HTTP RESPONSE 200
+[info] i  hosting: Serving hosting files from: build
+[info] ✔  hosting: Local server: http://localhost:5000
+
+[debug] [2018-05-01T05:34:16.440Z] Parsing function triggers

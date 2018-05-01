@@ -1,7 +1,5 @@
 const functions = require('firebase-functions');
 
-
-
 var rank = functions.database.ref('players/{playerId}/votes')
 .onUpdate((change, context) => {
   console.log("Business")
@@ -10,8 +8,6 @@ var rank = functions.database.ref('players/{playerId}/votes')
   var newVotes = change.after.val()
   var changeRank = 0
 
-  console.log("newVotes: " + newVotes)
-  console.log("oldVotes: " + oldVotes)
   // went higher in the list so bump every player passed by 1
   if (newVotes > oldVotes) {
     orderedListRef = orderedListRef.endAt(newVotes)

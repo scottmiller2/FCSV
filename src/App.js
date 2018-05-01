@@ -187,7 +187,7 @@ class App extends Component {
   addPlayer(player) {
     //later should be if mod == true or group == .. to confirm admin
     if(this.state.user && this.uid === "vKl6rIUuI0WsbeWVORz3twPUfnd2"){
-      this.database.push().set({ playerContent: player, votes: 0, rank: 1})
+      this.database.push().set({ playerContent: player, votes: 0, rank: 0})
       }
       else if (this.state.user && this.uid !== "vKl6rIUuI0WsbeWVORz3twPUfnd2"){
       this.alertPermission()
