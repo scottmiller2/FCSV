@@ -1,8 +1,10 @@
 const functions = require('firebase-functions');
 
+
+
 var rank = functions.database.ref('players/{playerId}/votes')
 .onUpdate((change, context) => {
-
+  console.log("Business")
   var orderedListRef = change.after.ref.root.child('players').orderByChild('votes')
   var oldVotes = change.before.val()
   var newVotes = change.after.val()

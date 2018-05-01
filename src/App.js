@@ -16,9 +16,6 @@ const provider = new firebase.auth.GoogleAuthProvider();
 const auth = firebase.auth();
 let screenSize = window.innerWidth;
 
-let prevPlayerVotes = 0
-let rankCount = 1
-
 class App extends Component {
 
   constructor(props) {
@@ -91,9 +88,6 @@ class App extends Component {
     Alert.error('Successful Downvote!', {
         position: 'top-right',
         effect: 'slide',
-        onShow: function () {
-            console.log('downvote fired!')
-        },
         beep: false,
         timeout: 2000,
         offset: 58
@@ -237,10 +231,7 @@ class App extends Component {
 
       ref.once('value', snap => {
         var value = snap.val()
-        console.log(value)
         if (value !== null) {
-            console.log("Exists ")
-            
             ref.child(this.uid).once('value', snap => {
 
               if (snap.val() === 0 || snap.val() === null){
@@ -318,11 +309,7 @@ class App extends Component {
    else {
         this.alertNotLoggedIn()
         console.log("Must be logged in to vote.")
-    }
-  console.log(orderedPlayersRank)
-  console.log("prevPlayerVotes: " + prevPlayerVotes)
-  console.log("rankCount: " + rankCount)
-
+   }
   }
 
 
@@ -453,7 +440,7 @@ class App extends Component {
               <div className="authArea"><button className="logout" onClick={this.userLogOut}>:</button></div>
             </div>
             :
-            console.log("1.0 | Local")
+            console.log("1.0 | Local 0.0")
         }
         {
           this.state.user ?
