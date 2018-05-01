@@ -376,12 +376,6 @@ class App extends Component {
                  }
                  return player;
                })
-
-               
-               //ranking from no vote to upvote
-
-
-
               } else if (snap.val() === -1){
                 ref.child(this.uid).set(1);
                 if(screenSize < 700){
@@ -398,11 +392,6 @@ class App extends Component {
                  }
                  return player;
                })
-
-
-               //ranking downvote to upvote
-
-
               } else if (snap.val() === 1) {
               ref.child(this.uid).set(0);
               if(screenSize < 700){
@@ -418,11 +407,6 @@ class App extends Component {
                 }
                 return player;
               })
-
-              
-              //ranking cancel upvote
-
-
               }
               else {
                 console.log("Error in upvoting. snap.val(): " + snap.val())
@@ -443,32 +427,6 @@ class App extends Component {
             })
         }
     });
-  
-            //ranking adding to db
-            orderedPlayersRank.map((player) => {   
-              if(orderedPlayersRank.length === 1){
-                this.database.child(player.id).transaction(function(player){
-                player.rank = rankCount
-                })
-              } 
-              else if (player.votes > prevPlayerVotes) {
-                
-                /*prevPlayerVotes = player.votes
-                this.database.child(player.id).transaction(function(player){
-                  player.rank = rankCount
-                })*/
-              } else if (player.votes < prevPlayerVotes) {
-                rankCount++
-                prevPlayerVotes = player.votes
-                /*this.database.child(player.id).transaction(function(player){
-                  player.rank = rankCount
-                })*/
-              } else {
-                  console.log("Rank calculation error.")
-              }
-              return player;
-           })
-  
   }
    else {
         this.alertNotLoggedIn()
@@ -495,7 +453,7 @@ class App extends Component {
               <div className="authArea"><button className="logout" onClick={this.userLogOut}>:</button></div>
             </div>
             :
-            console.log("1.0.0")
+            console.log("1.0 | Local")
         }
         {
           this.state.user ?

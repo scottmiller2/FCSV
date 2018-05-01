@@ -1,0 +1,40 @@
+[debug] [2018-05-01T04:00:33.698Z] ----------------------------------------------------------------------
+[debug] [2018-05-01T04:00:33.701Z] Command:       /usr/local/bin/node /usr/local/bin/firebase serve
+[debug] [2018-05-01T04:00:33.702Z] CLI Version:   3.18.4
+[debug] [2018-05-01T04:00:33.702Z] Platform:      darwin
+[debug] [2018-05-01T04:00:33.702Z] Node Version:  v10.0.0
+[debug] [2018-05-01T04:00:33.702Z] Time:          Tue May 01 2018 00:00:33 GMT-0400 (EDT)
+[debug] [2018-05-01T04:00:33.702Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-05-01T04:00:33.715Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-05-01T04:00:33.715Z] > authorizing via signed-in user
+[debug] [2018-05-01T04:00:33.718Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/fantsy-ae03e  
+  
+ Tue May 01 2018 00:00:33 GMT-0400 (EDT)
+[debug] [2018-05-01T04:00:34.094Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-01T04:00:34.095Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/fantsy-ae03e/tokens  
+  
+ Tue May 01 2018 00:00:34 GMT-0400 (EDT)
+[debug] [2018-05-01T04:00:34.420Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-01T04:00:34.422Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/fantsy-ae03e  
+  
+ Tue May 01 2018 00:00:34 GMT-0400 (EDT)
+[debug] [2018-05-01T04:00:34.711Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from '/Users/scottmiller/React/FCSV'...
+[info] 
+[info] i  functions: Preparing to emulate functions.
+[debug] [2018-05-01T04:00:35.386Z] Fetching environment
+[debug] [2018-05-01T04:00:35.388Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/680143355664:getServerAppConfig  
+  
+ Tue May 01 2018 00:00:35 GMT-0400 (EDT)
+[debug] [2018-05-01T04:00:35.389Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/680143355664/clients/_:getWebAppConfig  
+  
+ Tue May 01 2018 00:00:35 GMT-0400 (EDT)
+[debug] [2018-05-01T04:00:35.742Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-01T04:00:35.743Z] Starting @google-cloud/functions-emulator
+[debug] [2018-05-01T04:00:35.807Z] <<< HTTP RESPONSE 200
+[info] i  hosting: Serving hosting files from: build
+[info] ✔  hosting: Local server: http://localhost:5000
+
+[debug] [2018-05-01T04:00:37.303Z] Parsing function triggers

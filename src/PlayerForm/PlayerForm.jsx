@@ -129,7 +129,7 @@ writePlayerDown(newPlayerContent){
         return(
             <div className="searchArea">
                 <input className="playerInput"
-                placeholder="Vote for player by name" 
+                placeholder="Search for player by name" 
                 value={this.state.newPlayerContent} 
                 onChange={this.handleUserInput} />
             <button className="upvoteButton" onClick={this.writePlayerUp}>&#9650;</button>
