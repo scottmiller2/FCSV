@@ -8,8 +8,6 @@ exports.rank = functions.database.ref('players/{playerId}/votes')
   var orderedListRef = change.after.ref.root.child('players').orderByChild('votes')
   var oldVotes = change.before.val()
   var newVotes = change.after.val()
-  console.log(oldVotes)
-  console.log(newVotes)
   var changeRank = 0
   // went higher in the list so bump every player passed by 1
   if (newVotes > oldVotes) {

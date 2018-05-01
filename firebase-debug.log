@@ -1,0 +1,54 @@
+[debug] [2018-05-01T03:40:13.951Z] ----------------------------------------------------------------------
+[debug] [2018-05-01T03:40:13.955Z] Command:       /usr/local/bin/node /usr/local/bin/firebase serve
+[debug] [2018-05-01T03:40:13.957Z] CLI Version:   3.18.4
+[debug] [2018-05-01T03:40:13.957Z] Platform:      darwin
+[debug] [2018-05-01T03:40:13.957Z] Node Version:  v6.11.1
+[debug] [2018-05-01T03:40:13.958Z] Time:          Mon Apr 30 2018 23:40:13 GMT-0400 (EDT)
+[debug] [2018-05-01T03:40:13.958Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-05-01T03:40:13.982Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-05-01T03:40:13.982Z] > authorizing via signed-in user
+[debug] [2018-05-01T03:40:13.986Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2018-05-01T03:40:13.986Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ { refresh_token: '1/yVCLKIPmMqi14m85gBLmGBGZPsilbUwSmADK0QDTIHSwvSgApmrPY5UX3peaL7N9',
+  client_id: '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
+  client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
+  grant_type: 'refresh_token',
+  scope: 'email https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
+ Mon Apr 30 2018 23:40:13 GMT-0400 (EDT)
+[debug] [2018-05-01T03:40:14.192Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-01T03:40:14.207Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/fantsy-ae03e  
+  
+ Mon Apr 30 2018 23:40:14 GMT-0400 (EDT)
+[debug] [2018-05-01T03:40:14.641Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-01T03:40:14.643Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/fantsy-ae03e/tokens  
+  
+ Mon Apr 30 2018 23:40:14 GMT-0400 (EDT)
+[debug] [2018-05-01T03:40:15.031Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-01T03:40:15.033Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/fantsy-ae03e  
+  
+ Mon Apr 30 2018 23:40:15 GMT-0400 (EDT)
+[debug] [2018-05-01T03:40:15.323Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from '/Users/scottmiller/React/FCSV'...
+[info] 
+[info] i  functions: Preparing to emulate functions.
+[debug] [2018-05-01T03:40:16.479Z] Fetching environment
+[debug] [2018-05-01T03:40:16.483Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/680143355664:getServerAppConfig  
+  
+ Mon Apr 30 2018 23:40:16 GMT-0400 (EDT)
+[debug] [2018-05-01T03:40:16.484Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/680143355664/clients/_:getWebAppConfig  
+  
+ Mon Apr 30 2018 23:40:16 GMT-0400 (EDT)
+[debug] [2018-05-01T03:40:16.931Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-01T03:40:16.932Z] Starting @google-cloud/functions-emulator
+[debug] [2018-05-01T03:40:16.954Z] <<< HTTP RESPONSE 200
+[info] i  hosting: Serving hosting files from: build
+[info] ✔  hosting: Local server: http://localhost:5000
+
+[warn] ⚠  functions: Error from emulator. Error: Emulator crashed! Check the log file...
+[debug] [2018-05-01T03:40:17.141Z] Error: Emulator crashed! Check the log file...
+    at ChildProcess.child.on (/usr/local/lib/node_modules/firebase-tools/node_modules/@google-cloud/functions-emulator/src/cli/controller.js:650:24)
+    at emitTwo (events.js:106:13)
+    at ChildProcess.emit (events.js:191:7)
+    at Process.ChildProcess._handle.onexit (internal/child_process.js:215:12)

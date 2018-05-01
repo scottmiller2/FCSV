@@ -448,7 +448,7 @@ class App extends Component {
               <div className="authArea"><button className="logout" onClick={this.userLogOut}>:</button></div>
             </div>
             :
-            console.log("1.1.1 Beta, Ranks, Logs")
+            console.log("1.1.1 Beta, Ranks, Logs | Master")
         }
         {
           this.state.user ?
