@@ -100,16 +100,6 @@
   }
 
   @media (max-width: 520px) {
-  .player{
-    height: 65px;
-    width: 350px;
-    font-size: 1.3em;
-  }
-  .badges{
-    height: 65px;
-    padding-top: 7px;
-    padding-left: 2px;
-  }
   .up{
     padding-bottom: 0px;
   }
