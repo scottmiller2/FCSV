@@ -9,11 +9,26 @@ import Alert from 'react-s-alert';
 import './alert.css';
 import 'react-s-alert/dist/s-alert-css-effects/slide.css';
 import 'react-s-alert/dist/s-alert-css-effects/genie.css';
+import 'firebase/firestore'
+
+import {
+  Collapse,
+  Navbar,
+  NavbarToggler,
+  NavbarBrand,
+  Nav,
+  NavItem,
+  NavLink,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem } from 'reactstrap';
 
 firebase.initializeApp(DB_CONFIG)
 
 const provider = new firebase.auth.GoogleAuthProvider();
 const auth = firebase.auth();
+require("firebase/firestore");
 let screenSize = window.innerWidth;
 
 class App extends Component {
@@ -28,17 +43,26 @@ class App extends Component {
     this.userLogIn = this.userLogIn.bind(this);
     this.userLogOut = this.userLogOut.bind(this);
     this.uid = null;
+    this.toggle = this.toggle.bind(this);
     
     this.state = {
       players: [],
       user: null,
       weekTabVisible: true, //was null
-      byeTabVisible: null
+      byeTabVisible: null,
+      isOpen: false
     }
 
     this.players = [];
   }
 
+  toggle() {
+    this.setState({
+      isOpen: !this.state.isOpen
+    });
+  }
+
+  //Alert the user when an upvote is registered
   alertUpVote() {
     Alert.success('Successful Upvote!', {
         position: 'top-right',
@@ -88,9 +112,6 @@ class App extends Component {
     Alert.error('Successful Downvote!', {
         position: 'top-right',
         effect: 'slide',
-        onShow: function () {
-            console.log('downvote fired!')
-        },
         beep: false,
         timeout: 2000,
         offset: 58
@@ -234,10 +255,7 @@ class App extends Component {
 
       ref.once('value', snap => {
         var value = snap.val()
-        console.log(value)
         if (value !== null) {
-            console.log("Exists ")
-            
             ref.child(this.uid).once('value', snap => {
 
               if (snap.val() === 0 || snap.val() === null){
@@ -315,9 +333,7 @@ class App extends Component {
    else {
         this.alertNotLoggedIn()
         console.log("Must be logged in to vote.")
-    }
-  console.log(orderedPlayersRank)
-
+   }
   }
 
 
@@ -421,7 +437,7 @@ class App extends Component {
               return player;
             })
         }
-    });  
+    });
   }
    else {
         this.alertNotLoggedIn()
@@ -441,35 +457,31 @@ class App extends Component {
     let hideWeek = this.state.weekTabVisible ? "none" : "block"
     return (
       <div className="playersWrapper">
-        <div className="userBar">
-        {
-          this.state.user ?
-            <div className='user-profile'>
-              <div className="authArea"><button className="logout" onClick={this.userLogOut}>:</button></div>
-            </div>
-            :
-            console.log("1.1.1 Beta, Ranks, Logs | Master")
-        }
-        {
-          this.state.user ?
-            console.log("")
-            :
-            <div className="authArea"><button className="login" onClick={this.userLogIn}>Login</button></div>
-        }
-        </div>
-        <div className="titleBar">
-          <div className="heading">Fantsy <img src={require('./Static/img/4.png')}
-             className="fantsy-image" alt={"background"} />
-            <div className="subheading">Crowdsourced Player trends</div>
-          </div>
-        </div>
-
-
+      <div className="userBar">
+        <Navbar  className="otp" color="light" light expand="md">
+          <NavbarBrand><div className="brandText">Fantsy <img className="logo" src={require('./Static/img/4.png')}></img></div></NavbarBrand>
+          <Collapse isOpen={this.state.isOpen} navbar  className="navBarLinks">
+            <Nav className="ml-auto" navbar>
+              <NavItem>
+                <NavLink className="aboutLink" href="#">About</NavLink>
+              </NavItem> 
+              {
+              this.state.user ?
+              <NavItem><img alt="Logout" onClick={this.userLogOut} className='profile-image' src={this.state.user.photoURL} alt={"userphoto"} />
+              </NavItem>
+              :
+              <NavItem>
+              <NavLink className="logOut" onClick={this.userLogIn}>Login</NavLink>
+              </NavItem>
+              }            
+            </Nav>
+          </Collapse>
+        </Navbar>
+      </div>
         <div className="searchBar">
           <PlayerForm addPlayer={this.addPlayer}
                       upvotePlayer={this.upvotePlayer}
                       downvotePlayer={this.downvotePlayer} />
-          
         </div>
 
         <span style={{ display: hideWeek }} className="weekHeading"><a style={{ display: hideWeek }} className="closeTab" onClick={this.weekTab.bind(this)}>x</a><br/> 2018 NFL Draft — Thursday, April 26th - Saturday, April 28th</span>

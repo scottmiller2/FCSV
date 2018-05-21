@@ -63,7 +63,7 @@ class Player extends Component{
             <div className="player fade-in">
                 <span className="badges" id="prevRank">{this.rank}<br/> <span className="badgesPrev" id="prevRank">0</span></span>
                 <UncontrolledTooltip className="prevRankTooltip" placement="right" hideArrow target="prevRank">
-                Last Week: -
+                Last Week:
                 </UncontrolledTooltip>
                 <p className="playerContent">{this.playerContent}</p>
                 <span>

@@ -2,29 +2,29 @@ const functions = require('firebase-functions');
 var admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
 
-exports.votePlayer = functions.https.onRequest((request, response) => {
+exports.votePlayer = functions.https.onCall((request, response) => {
     const playerToVote = request.query.playerToVote;
 
-    if (playerToVote == null) {
+    if (playerToVote === null) {
         return response.status(404).send({
             "success": false,
-            "message": "Missing parameter: \`playerToVote: String\`."
+            "message": "Missing parameter: `playerToVote: String`."
           });
     }
 
     const userWhoVote = request.query.userWhoVote;
-    if (userWhoVote == null) {
+    if (userWhoVote === null) {
         return response.status(404).send({
             "success": false,
-            "message": "Missing parameter: \`userWhoVote: String\`."
+            "message": "Missing parameter: `userWhoVote: String`."
           });
     }
 
     const upVote = request.query.upVote;
-    if (upVote == null) {
+    if (upVote === null) {
         return response.status(404).send({
             "success": false,
-            "message": "Missing parameter: \`upVote: Boolean\`."
+            "message": "Missing parameter: `upVote: Boolean`."
         });
     }
 
@@ -40,10 +40,10 @@ exports.votePlayer = functions.https.onRequest((request, response) => {
             const saveUserIDPromise = rootReference.child('playersVotes/' + playerToVote + '/' + userWhoVote).set(true)
             promises.push(saveUserIDPromise)
             const updateVotesPromise = rootReference.child('players/' + playerToVote + '/votes').transaction(function(currentValue) {
-                if (currentValue == null) {
+                if (currentValue === null) {
                     return 0;
                 }
-                if (upVote == true) {
+                if (upVote === true) {
                     return currentValue + 1;
                 } else {
                     return currentValue - 1;
@@ -54,8 +54,10 @@ exports.votePlayer = functions.https.onRequest((request, response) => {
             Promise.all(promises).then(() => {
                 return response.status(200).send({
                     "success": true
-                });
-            });
+                })
+            }).catch(error => {
+                console.error(error);
+            });                
         }
     });
 });

@@ -1,3 +1,4 @@
+
 html {
   height: 100%;
 }
@@ -19,6 +20,36 @@ background-attachment: fixed;
   margin: 0;
   padding: 0;
   border: 0;
+}
+
+.logOut{
+  cursor: pointer;
+}
+.otp{
+  height: 58px;
+  padding-left: 25%;
+}
+.logo{
+  padding-bottom: 8px;
+  width: 45px;
+  height: 39px;
+}
+
+.brandText{
+  font-family: 'Roboto', sans-serif;
+  color: rgba(0,0,0,.7);
+  font-size: 20pt;
+  padding-bottom: 2px;
+}
+
+/*Pushes logo and Fnsty in*/
+.navbar-brand{
+  padding-left: 23%;
+}
+
+.navBarLinks{
+  padding-right: 25%;
+  padding-top: 3px;
 }
 
 .alert{
@@ -46,22 +77,15 @@ background-attachment: fixed;
 }
 
 .profile-image{
-  float: right;
-  height: 65px;
-  width: 65px;
-  font-family: 'Roboto', sans-serif;
-  font-size: 8pt;
+  height: 45px;
+  width: 45px;
   opacity: 0.8;
+  border-radius: 50%;
 }
 
-/*.user-score{
-  float: right;
-  margin: 16px 25px 0 0;
-  font-family: 'Roboto', sans-serif;
-  color: #00ab9e;
-  font-size: 18pt;
-  opacity: 0.8;
-}*/
+.aboutLink{
+  margin-right: 10px;
+}
 
 .profile-image:hover{
   opacity: 1.0;
@@ -72,19 +96,6 @@ background-attachment: fixed;
   float: right;
   margin: 5px 20px 0 0;
 }
-
-/*Fantsy text and image*/
-.titleBar {
-  height: 120px;
-  color: rgba(0,0,0,0.9);
-  text-align: center;
-  font-size: 4.0em;
-  padding: 15px 0 0 0;
-  background-color: rgba(0,0,0,0.2);
-  text-transform: uppercase;
-  font-family: 'Roboto', sans-serif;
-}
-
 
 /*Crowdsourced player trends*/
 .subheading {
@@ -105,40 +116,6 @@ background-attachment: fixed;
 button{
   border: none;
   outline: none;
-}
-
-.login {
-  position: absolute;
-  top:0;
-  right: 0;
-  height: 50px;
-  width: 65px;
-  padding: 0 8px 0 0;
-  font-family: 'Roboto', sans-serif;
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 11pt;
-  white-space: nowrap;
-  border-radius: 0px;
-  background-color: #00ab9e;
-  text-align: center;
-  cursor: pointer;
-}
-
-.logout {
-  position: absolute;
-  top: 0;
-  right: 0;
-  height: 50px;
-  width: 20px;
-  padding: 0 0px 0 0;
-  font-family: 'Roboto', sans-serif;
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 11pt;
-  white-space: nowrap;
-  background-color: #00ab9e;
-  text-align: center;
-  cursor: pointer;
-  opacity: 0.9;
 }
 
 /*Search area*/
@@ -241,7 +218,15 @@ white-space: nowrap;
   }
 }
 
-@media (max-width: 520px) {
+@media (max-width: 500px) {
+  .navbar-brand{
+    padding-left: 5%;
+  }
+
+  .weekHeading{
+    width: 275px;
+    padding: 10px 0 20px 0;
+    }
   .heading {
     font-size: 2.0em;
   }
@@ -250,14 +235,7 @@ white-space: nowrap;
     white-space: nowrap;
   }
   .searchBar{
-    margin-top: 33px;
-  }
-  .profile-image{
-    height: 65px;
-    width: 65px;
-  }
-  .subheading{
-    font-size: 12pt;
+    margin-top: 50px;
   }
   .fantsy-image{
     height: 33px;
@@ -267,31 +245,23 @@ white-space: nowrap;
     display: flex;
     flex-wrap: wrap;
     align-content: space-between;
-    padding-left: 10px;
+    padding-right: 10px;
   }
   .playersBody{
     height: auto;
   }
-  .trendHeaderDown{
-    width: 350px;
-    padding-left: 105px;
-    padding-right: 105px;
-  }
   .trendHeaderUp{
-    width: 350px;
-    padding-left: 120px;
-    padding-right: 120px;
+    margin-left: 15px;
+    width: 325px;
+    padding-left: 60px;
+    padding-right: 65px;
+    border-radius: 5px 0px 5px 0
   }
-}
-@media (max-width: 480px) {
-.weekHeading{
-  width: 275px;
-  padding: 10px 0 20px 0;
-  }
-  .weekHeading{
-    font-size: 7.5pt;
-  }
-  .subheading{
-    font-size: 14pt;
+  .trendHeaderDown{
+    margin-left: 15px;
+    width: 325px;
+    padding-left: 50px;
+    padding-right: 50px;
+    border-radius: 5px 0px 5px 0
   }
 }

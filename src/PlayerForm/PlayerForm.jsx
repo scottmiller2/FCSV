@@ -2,6 +2,22 @@ import React, { Component } from 'react';
 import './PlayerForm.css';
 import * as firebase from 'firebase';
 
+//Added 5/21
+import {
+    InputGroup,
+    InputGroupAddon,
+    InputGroupButtonDropdown,
+    InputGroupDropdown,
+    Input,
+    Button,
+    Dropdown,
+    DropdownToggle,
+    DropdownMenu,
+    DropdownItem
+   } from 'reactstrap';
+
+//End
+
 class PlayerForm extends Component {
     constructor(props) {
         super(props);
@@ -129,7 +145,7 @@ writePlayerDown(newPlayerContent){
         return(
             <div className="searchArea">
                 <input className="playerInput"
-                placeholder="Vote for player by name" 
+                placeholder="Vote by player by name" 
                 value={this.state.newPlayerContent} 
                 onChange={this.handleUserInput} />
             <button className="upvoteButton" onClick={this.writePlayerUp}>&#9650;</button>
