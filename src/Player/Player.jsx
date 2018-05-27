@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import './Player.css';
 import PropTypes from 'prop-types';
 import * as firebase from 'firebase';
-import { UncontrolledTooltip } from 'reactstrap';
 
 class Player extends Component{
 
@@ -23,12 +22,12 @@ class Player extends Component{
     /*make this a function instead which can be called elsewhere to assure
     when a user logs in it can be called and their votes are shown rather than
     requiring a refresh*/
-      let ref = firebase.database().ref('/players/' + this.playerId + '/voters');
+      let ref = firebase.database().ref('playersVotes/' + this.playerId); 
 
       ref.on('value', snap => {
         var value = snap.val()
 
-        if (value !== null && this.props.uid !== null) {       
+        if (value !== null && this.props.uid !== null) {      
             ref.child(this.props.uid).once('value', snap => {
               if (snap.val() === 1){
                 this.setState({ votedUp: true, votedDown: false })
@@ -62,11 +61,9 @@ class Player extends Component{
         return(
             <div className="player fade-in">
                 <span className="badges" id="prevRank">{this.rank}<br/> <span className="badgesPrev" id="prevRank">0</span></span>
-                <UncontrolledTooltip className="prevRankTooltip" placement="right" hideArrow target="prevRank">
-                Last Week:
-                </UncontrolledTooltip>
                 <p className="playerContent">{this.playerContent}</p>
                 <span>
+                
                 <span className={`vote up ${this.state.votedUp === true && 'alreadyVotedUp'}`}
                 onClick={() => this.handleUpvote(this.playerId)}>
                 &#9650;

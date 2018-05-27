@@ -33,6 +33,7 @@ background-attachment: fixed;
   padding-bottom: 8px;
   width: 45px;
   height: 39px;
+  opacity: 0.7;
 }
 
 .brandText{
@@ -48,8 +49,12 @@ background-attachment: fixed;
 }
 
 .navBarLinks{
-  padding-right: 25%;
+  padding-right: 23%;
   padding-top: 3px;
+}
+
+.blogLink nav-link{
+  font-family: 'Roboto', sans-serif;
 }
 
 .alert{
