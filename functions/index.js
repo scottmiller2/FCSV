@@ -54,10 +54,10 @@ exports.votePlayer = functions.https.onRequest((request, response) => {
             Promise.all(promises).then(() => {
                 return response.status(200).send({
                     "success": true
+                })
                 }).catch(error => {
                     console.error(error);
                 });  
-            });
         }
     });
 });
