@@ -22,7 +22,8 @@ import {
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem } from 'reactstrap';
+  DropdownItem,
+} from 'reactstrap';
 
 firebase.initializeApp(DB_CONFIG)
 
@@ -210,7 +211,7 @@ class App extends Component {
   }
   addPlayer(player) {
     //later should be if mod == true or group == .. to confirm admin
-    if(this.state.user && this.uid === "vKl6rIUuI0WsbeWVORz3twPUfnd2"){
+    if(this.state.user && (this.uid === "vKl6rIUuI0WsbeWVORz3twPUfnd2") || this.uid === "um9Emv54qbVbuaITHlmJSh2fphx2"){
       this.database.push().set({ playerContent: player, votes: 0, rank: 0})
       }
       else if (this.state.user && this.uid !== "vKl6rIUuI0WsbeWVORz3twPUfnd2"){
@@ -251,13 +252,14 @@ class App extends Component {
     const orderedPlayersRank = _.orderBy(players, ['votes'], ['desc'])
     if(this.state.user) {
 
-      let ref = firebase.database().ref('/players/' + playerId + '/voters');
+      let ref = firebase.database().ref('playersVotes/' + playerId); 
 
       ref.once('value', snap => {
         var value = snap.val()
         if (value !== null) {
             ref.child(this.uid).once('value', snap => {
 
+              //If vote had been previously retaracted or is null
               if (snap.val() === 0 || snap.val() === null){
                 ref.child(this.uid).set(-1);
                 if(screenSize < 700){
@@ -273,6 +275,7 @@ class App extends Component {
                   }
                   return player;
                 })
+                //If the current vote is an upvote
                 } else if (snap.val() === 1){
                 ref.child(this.uid).set(-1);
                 if(screenSize < 700){
@@ -289,6 +292,8 @@ class App extends Component {
                  }
                  return player;
                })
+
+              //If the current vote is a downvote
               } else if (snap.val() === -1) {
                 ref.child(this.uid).set(0);
                 if(screenSize < 700){
@@ -297,7 +302,6 @@ class App extends Component {
                   else{
                   this.alertRemoveVote();
                   }
-                //Added vote balancing
                 this.database.child(playerId).transaction(function(player) {
                   if (player) {
                     player.votes++
@@ -310,7 +314,7 @@ class App extends Component {
               }
             
             })
-
+        //If the player doesn't exist and is being downvoted
         } else {
             console.log("Doesn't exist")
             ref.child(this.uid).set(-1);
@@ -366,12 +370,15 @@ class App extends Component {
     const orderedPlayersRank = _.orderBy(players, ['votes'], ['desc'])
 
     if(this.state.user) {
-      let ref = firebase.database().ref('/players/' + playerId + '/voters'); 
+      let ref = firebase.database().ref('playersVotes/' + playerId); 
 
       ref.once('value', snap => {
         var value = snap.val()
+
+        //If there is a record currently available
         if (value !== null) {            
             ref.child(this.uid).once('value', snap => {
+              //If the current vote has been previously retracted or is null
               if (snap.val() === 0 || snap.val() == null){
                 ref.child(this.uid).set(1);
                 if(screenSize < 700){
@@ -387,6 +394,8 @@ class App extends Component {
                  }
                  return player;
                })
+
+              //If the current vote is a downvote
               } else if (snap.val() === -1){
                 ref.child(this.uid).set(1);
                 if(screenSize < 700){
@@ -395,7 +404,7 @@ class App extends Component {
                 else{
                 this.alertUpVote();
                 }
-               //Added vote balancing 
+
                this.database.child(playerId).transaction(function(player) {
                  if (player) {
                    player.votes++
@@ -403,6 +412,8 @@ class App extends Component {
                  }
                  return player;
                })
+
+              //If the current vote is an upvote
               } else if (snap.val() === 1) {
               ref.child(this.uid).set(0);
               if(screenSize < 700){
@@ -411,7 +422,6 @@ class App extends Component {
                 else{
                 this.alertRemoveVote();
                 }
-              //Added vote balancing
               this.database.child(playerId).transaction(function(player) {
                 if (player) {
                   player.votes--
@@ -426,6 +436,7 @@ class App extends Component {
             })
 
         } else {
+            //If the current player is not in the DB and has not been voted on by this user
             ref.child(this.uid).set(1);
             this.alertUpVote()
             //Added vote balancing
@@ -462,6 +473,9 @@ class App extends Component {
           <NavbarBrand><div className="brandText">Fantsy <img className="logo" src={require('./Static/img/4.png')}></img></div></NavbarBrand>
           <Collapse isOpen={this.state.isOpen} navbar  className="navBarLinks">
             <Nav className="ml-auto" navbar>
+              <NavItem>
+                <NavLink className="blogLink" href="http://scomiller.com/blog">Blog</NavLink>
+              </NavItem> 
               <NavItem>
                 <NavLink className="aboutLink" href="#">About</NavLink>
               </NavItem> 
