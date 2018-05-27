@@ -50,7 +50,7 @@ background-attachment: fixed;
 
 .navBarLinks{
   padding-right: 23%;
-  padding-top: 3px;
+  padding-top: 5px;
 }
 
 .blogLink nav-link{
@@ -65,7 +65,6 @@ background-attachment: fixed;
 .playersWrapper {
   display: flex;
   flex-direction: column;
-
 }
 
 /* Login and user image top bar */
@@ -74,11 +73,18 @@ background-attachment: fixed;
   background-color: rgba(0,0,0,0.6);
 }
 
-/* Div holding the profile image */
-.user-profile{
-  box-sizing: border-box;
-  float: right;
-  padding-right: 65px;
+.menuLinks{
+  font-family: 'Roboto', sans-serif;
+  cursor: pointer;
+}
+
+.dropdown-item{
+  height: auto;
+  background-color: white !important;
+}
+
+.dropdown-item:hover{
+text-decoration: underline !important;
 }
 
 .profile-image{
@@ -86,10 +92,6 @@ background-attachment: fixed;
   width: 45px;
   opacity: 0.8;
   border-radius: 50%;
-}
-
-.aboutLink{
-  margin-right: 10px;
 }
 
 .profile-image:hover{
@@ -215,6 +217,12 @@ white-space: nowrap;
   max-height: 10%;
 }
 
+@media (max-width:700px){
+  .navbar-brand{
+    padding-left: 10%;
+  }
+}
+
 @media (max-width:600px){
   .weekHeading{
     font-size: 0.8em;
@@ -222,10 +230,20 @@ white-space: nowrap;
     padding: 5px 5px 10px 5px;
   }
 }
+@media (max-width:550px){
+  .navbar-brand{
+    padding-left: 7%;
+  }
+}
 
 @media (max-width: 500px) {
   .navbar-brand{
     padding-left: 5%;
+  }
+
+  .navBarLinks{
+    padding-top: 5px;
+    padding-right: 5px;
   }
 
   .weekHeading{
@@ -268,5 +286,11 @@ white-space: nowrap;
     padding-left: 50px;
     padding-right: 50px;
     border-radius: 5px 0px 5px 0
+  }
+}
+
+@media (max-width:380px){
+  .navbar-brand{
+    padding-left: 0%;
   }
 }

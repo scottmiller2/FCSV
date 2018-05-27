@@ -51,7 +51,8 @@ class App extends Component {
       user: null,
       weekTabVisible: true, //was null
       byeTabVisible: null,
-      isOpen: false
+      isOpen: false,
+      dropdownOpen: false
     }
 
     this.players = [];
@@ -59,7 +60,7 @@ class App extends Component {
 
   toggle() {
     this.setState({
-      isOpen: !this.state.isOpen
+      isOpen: !this.state.isOpen,
     });
   }
 
@@ -469,23 +470,34 @@ class App extends Component {
     return (
       <div className="playersWrapper">
       <div className="userBar">
-        <Navbar  className="otp" color="light" light expand="md">
+        <Navbar  className="otp" color="light" light expand="xs">
           <NavbarBrand><div className="brandText">Fantsy <img className="logo" src={require('./Static/img/4.png')}></img></div></NavbarBrand>
           <Collapse isOpen={this.state.isOpen} navbar  className="navBarLinks">
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink className="blogLink" href="http://scomiller.com/blog">Blog</NavLink>
+                <NavLink className="menuLinks" href="http://scomiller.com/blog">Blog</NavLink>
               </NavItem> 
               <NavItem>
-                <NavLink className="aboutLink" href="#">About</NavLink>
+                <NavLink className="menuLinks" href="#">About</NavLink>
               </NavItem> 
               {
               this.state.user ?
-              <NavItem><img alt="Logout" onClick={this.userLogOut} className='profile-image' src={this.state.user.photoURL} alt={"userphoto"} />
-              </NavItem>
+              <UncontrolledDropdown nav inNavbar>
+                <DropdownToggle className="menuLinks" nav caret>
+                  Profile
+                </DropdownToggle>
+                <DropdownMenu right>
+                  <DropdownItem className="menuLinks">
+                    <a src="#">Activity</a>
+                  </DropdownItem>
+                  <DropdownItem className="menuLinks" onClick={this.userLogOut}>
+                    Logout
+                  </DropdownItem>
+                </DropdownMenu>
+              </UncontrolledDropdown>
               :
               <NavItem>
-              <NavLink className="logOut" onClick={this.userLogIn}>Login</NavLink>
+              <NavLink className="menuLinks" onClick={this.userLogIn}>Login</NavLink>
               </NavItem>
               }            
             </Nav>
