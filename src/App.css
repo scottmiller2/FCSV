@@ -92,6 +92,7 @@ text-decoration: underline !important;
   width: 45px;
   opacity: 0.8;
   border-radius: 50%;
+  align-content: center;
 }
 
 .profile-image:hover{

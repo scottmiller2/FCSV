@@ -475,9 +475,6 @@ class App extends Component {
           <Collapse isOpen={this.state.isOpen} navbar  className="navBarLinks">
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink className="menuLinks" href="http://scomiller.com/blog">Blog</NavLink>
-              </NavItem> 
-              <NavItem>
                 <NavLink className="menuLinks" href="#">About</NavLink>
               </NavItem> 
               {
@@ -488,7 +485,7 @@ class App extends Component {
                 </DropdownToggle>
                 <DropdownMenu right>
                   <DropdownItem className="menuLinks">
-                    <a src="#">Activity</a>
+                    <a src="#">My Activity</a>
                   </DropdownItem>
                   <DropdownItem className="menuLinks" onClick={this.userLogOut}>
                     Logout
